@@ -424,19 +424,19 @@ export default function Form() {
             Доступна только ближайшая кампания, назначенная на ваше подразделение
           </div>
 
-          <div style={{ marginBottom: delegateInEmployees ? 8 : 16 }}>
+          <div style={{ marginBottom: 16 }}>
             <SelectField label="Сотрудники" value={employees} options={employeeOptions} onChange={handleEmployees} disabled={!campaign} multi={true} lockedHint={!division ? "Сначала выберите подразделение" : !campaign ? "Сначала выберите кампанию" : null} />
           </div>
 
+          <div style={{ marginBottom: delegateInEmployees ? 16 : 32 }}>
+            <Checkbox checked={selectAll} onChange={handleSelectAll} label="Выбрать всех сотрудников" />
+          </div>
+
           {delegateInEmployees && (
-            <div style={{ marginBottom: 16 }}>
+            <div style={{ marginBottom: 32 }}>
               <Banner type="error" title={`Вами выбран сотрудник ${delegateObj?.name}, который также указан делегатом`} subtitle="Пожалуйста, смените делегата или выберите другого сотрудника для делегирования" />
             </div>
           )}
-
-          <div style={{ marginBottom: 32 }}>
-            <Checkbox checked={selectAll} onChange={handleSelectAll} label="Выбрать всех сотрудников" />
-          </div>
 
           <div style={{ display: "flex", gap: 12 }}>
             <button onClick={() => allFilled && !delegateInEmployees && setSubmitted(true)} disabled={!allFilled || !!delegateInEmployees}
