@@ -1,13 +1,12 @@
 import { useState } from "react";
-import Form from "./Form";
 import DelegationList from "./DelegationList";
+import Form from "./Form";
 
 export default function App() {
-  const [page, setPage] = useState("list");
+  const [page, setPage] = useState("list"); // "list" | "form"
 
   if (page === "form") {
-    return <Form onBack={() => setPage("list")} />;
+    return <Form onNavigate={setPage} />;
   }
-
-  return <DelegationList onCreateNew={() => setPage("form")} />;
+  return <DelegationList onNavigate={setPage} />;
 }
