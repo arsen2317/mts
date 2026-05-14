@@ -73,6 +73,7 @@ export default function Form({ onNavigate }) {
   const [employees, setEmployees] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
 
   const campaignOptions = division ? (DATA.campaigns[division] || []) : [];
   const employeeOptions = campaign ? (DATA.employees[campaign] || []) : [];
@@ -183,20 +184,29 @@ export default function Form({ onNavigate }) {
             </div>
           )}
 
-          <div style={{ display: "flex", gap: 12 }}>
-            <button onClick={() => allFilled && !delegateInEmployees && setSubmitted(true)} disabled={!allFilled || !!delegateInEmployees}
+          <div>
+            <button onClick={() => allFilled && !delegateInEmployees && setShowConfirm(true)} disabled={!allFilled || !!delegateInEmployees}
               style={{ height: 52, padding: "0 32px", background: allFilled && !delegateInEmployees ? "#0066FF" : "#BCC3D0", color: "#fff", border: "none", borderRadius: 10, cursor: allFilled && !delegateInEmployees ? "pointer" : "not-allowed", transition: "background 0.2s", ...BTN_STYLE }}>
               СОЗДАТЬ ДЕЛЕГИРОВАНИЕ
-            </button>
-            <button onClick={reset}
-              style={{ height: 52, padding: "0 24px", background: "#F2F3F7", color: "#1D2023", border: "none", borderRadius: 10, cursor: "pointer", ...BTN_STYLE }}
-              onMouseEnter={e => { e.currentTarget.style.background = "#E8E9EF"; }}
-              onMouseLeave={e => { e.currentTarget.style.background = "#F2F3F7"; }}>
-              СБРОСИТЬ
             </button>
           </div>
         </div>
       </div>
+
+      {showConfirm && (
+        <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.4)", zIndex: 500, display: "flex", alignItems: "center", justifyContent: "center" }} onClick={() => setShowConfirm(false)}>
+          <div style={{ width: 480, background: "#fff", borderRadius: 32, padding: "32px 20px 20px", display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }} onClick={e => e.stopPropagation()}>
+            <div style={{ paddingLeft: 16, paddingRight: 16, display: "flex", flexDirection: "column", gap: 8, alignSelf: "stretch" }}>
+              <div style={{ textAlign: "center", color: "#1D2023", fontSize: 20, fontFamily: "'MTSWide', sans-serif", fontWeight: 500, lineHeight: "24px" }}>Вы уверены, что хотите создать новое делегирование?</div>
+              <div style={{ textAlign: "center", color: "#626C77", fontSize: 17, fontFamily: "'MTSCompact', sans-serif", lineHeight: "24px" }}>Делегату будет отправлено уведомление</div>
+            </div>
+            <div style={{ alignSelf: "stretch", paddingTop: 24, display: "flex", gap: 12 }}>
+              <button onClick={() => { setSubmitted(true); setShowConfirm(false); }} style={{ flex: 1, height: 52, background: "#0066FF", color: "#fff", border: "none", borderRadius: 16, cursor: "pointer", ...BTN_STYLE }}>СОХРАНИТЬ</button>
+              <button onClick={() => setShowConfirm(false)} style={{ flex: 1, height: 52, background: "#F2F3F7", color: "#1D2023", border: "none", borderRadius: 16, cursor: "pointer", ...BTN_STYLE }}>ОТМЕНА</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
