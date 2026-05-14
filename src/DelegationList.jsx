@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { FONT_CSS, Header, BTN_STYLE, SearchIcon, ChevronUp, ChevronDown, BreadChevron, StatusBadge, Tag, Chip, PersonAvatar, Tabs } from "./ds";
+import { FONT_CSS, Header, BTN_STYLE, SearchIcon, ChevronUp, ChevronDown, BreadChevron, StatusBadge, Tag, Chip, PersonAvatar, Tabs, Checkbox } from "./ds";
 
 const BASE = import.meta.env.BASE_URL;
 const AVATARS = {
@@ -235,25 +235,39 @@ function DeclineModal({ onConfirm, onCancel }) {
   );
 }
 
+const CAMPAIGN_OPTIONS = [
+  { id: "camp1", label: "One-on-one 05.03.26 – 25.03.26" },
+  { id: "camp2", label: "Performance review 05.03.26 – 25.03.26" },
+];
+
 function DeclineCampaignModal({ onConfirm, onCancel }) {
   const [comment, setComment] = useState("");
   const [error, setError] = useState(false);
+  const [selected, setSelected] = useState(["camp1", "camp2"]);
+
+  const toggleCamp = (id) => setSelected(prev => prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]);
+
   return (
     <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.4)", zIndex: 500, display: "flex", alignItems: "center", justifyContent: "center" }} onClick={onCancel}>
       <div style={{ width: 720, background: "#fff", borderRadius: 32, boxShadow: "0px 8px 16px rgba(0,0,0,0.08), 0px 4px 24px rgba(0,0,0,0.12)", display: "flex", flexDirection: "column" }} onClick={e => e.stopPropagation()}>
         <div style={{ padding: 32, display: "flex", flexDirection: "column", gap: 4 }}>
           <div style={{ display: "flex", alignItems: "flex-start", gap: 8 }}>
-            <div style={{ flex: 1, paddingTop: 4, paddingBottom: 4, color: "#1D2023", fontSize: 20, fontFamily: "'MTSWide', sans-serif", fontWeight: 500, lineHeight: "24px" }}>Отклонить кампании?</div>
+            <div style={{ flex: 1, paddingTop: 4, paddingBottom: 4, color: "#1D2023", fontSize: 20, fontFamily: "'MTSWide', sans-serif", fontWeight: 500, lineHeight: "24px" }}>Отказ от кампаний</div>
             <button onClick={onCancel} style={{ padding: 4, background: "#F2F3F7", border: "none", borderRadius: 12, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <path d="M6 6l12 12M18 6L6 18" stroke="#1D2023" strokeWidth="1.5" strokeLinecap="round"/>
               </svg>
             </button>
           </div>
-          <div style={{ paddingRight: 40, color: "#626C77", fontSize: 14, fontFamily: "'MTSCompact', sans-serif", fontWeight: 400, lineHeight: "20px" }}>Руководителям придёт уведомление с указанной причиной</div>
+          <div style={{ paddingRight: 40, color: "#626C77", fontSize: 14, fontFamily: "'MTSCompact', sans-serif", fontWeight: 400, lineHeight: "20px" }}>Все назначенные вам встречи в рамках выбранных кампаний будут отменены, руководителю придёт уведомление с указанной причиной</div>
         </div>
-        <div style={{ paddingBottom: 32, paddingLeft: 32, paddingRight: 32, display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 24 }}>
-          <div style={{ alignSelf: "stretch", display: "flex", flexDirection: "column", gap: 4 }}>
+        <div style={{ paddingBottom: 32, paddingLeft: 32, paddingRight: 32, display: "flex", flexDirection: "column", gap: 24 }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+            {CAMPAIGN_OPTIONS.map(opt => (
+              <Checkbox key={opt.id} checked={selected.includes(opt.id)} onChange={() => toggleCamp(opt.id)} label={opt.label} />
+            ))}
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
             <div style={{ color: error ? "#D8400C" : "#626C77", fontSize: 14, fontFamily: "'MTSCompact', sans-serif", fontWeight: 400, lineHeight: "20px" }}>Комментарий</div>
             <textarea
               value={comment}
@@ -263,8 +277,8 @@ function DeclineCampaignModal({ onConfirm, onCancel }) {
             />
             <div style={{ color: error ? "#D8400C" : "#626C77", fontSize: 12, fontFamily: "'MTSCompact', sans-serif", fontWeight: 400, lineHeight: "16px" }}>{error ? "Поле обязательно для заполнения" : "До 255 символов. Поле обязательно для заполнения"}</div>
           </div>
-          <div style={{ display: "flex", gap: 10 }}>
-            <button onClick={() => { if (!comment.trim()) { setError(true); return; } onConfirm(); }} style={{ width: 271, height: 44, padding: 10, background: "#F2F3F7", border: "none", borderRadius: 16, cursor: "pointer", color: "#D8400C", fontSize: 12, fontFamily: "'MTSWide', sans-serif", fontWeight: 700, textTransform: "uppercase", lineHeight: "16px", letterSpacing: 0.6 }}>ОТКЛОНИТЬ</button>
+          <div style={{ display: "flex", gap: 10, justifyContent: "flex-end" }}>
+            <button onClick={() => { if (!comment.trim()) { setError(true); return; } onConfirm(); }} style={{ width: 271, height: 44, padding: 10, background: "#F2F3F7", border: "none", borderRadius: 16, cursor: "pointer", color: "#D8400C", fontSize: 12, fontFamily: "'MTSWide', sans-serif", fontWeight: 700, textTransform: "uppercase", lineHeight: "16px", letterSpacing: 0.6 }}>ОТКАЗАТЬСЯ</button>
             <button onClick={onCancel} style={{ width: 271, height: 44, padding: 10, background: "#F2F3F7", border: "none", borderRadius: 16, cursor: "pointer", color: "#1D2023", fontSize: 12, fontFamily: "'MTSWide', sans-serif", fontWeight: 700, textTransform: "uppercase", lineHeight: "16px", letterSpacing: 0.6 }}>ОТМЕНА</button>
           </div>
         </div>
