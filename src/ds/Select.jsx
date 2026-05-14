@@ -22,13 +22,27 @@ export function SelectField({ label, value, options, onChange, disabled, showInf
   const [query, setQuery] = useState("");
   const ref = useRef(null);
   const inputRef = useRef(null);
-  useOutsideClick(ref, () => { setOpen(false); setQuery(""); });
+  const openValueRef = useRef(null);
+
+  // Revert to saved value on outside click (don't commit mid-selection)
+  useOutsideClick(ref, () => {
+    if (open && multi && openValueRef.current !== null) {
+      onChange(openValueRef.current);
+      openValueRef.current = null;
+    }
+    setOpen(false);
+    setQuery("");
+  });
 
   useEffect(() => {
     if (open && searchable && inputRef.current) inputRef.current.focus();
   }, [open, searchable]);
 
-  useEffect(() => { if (!open) setQuery(""); }, [open]);
+  const handleToggle = () => {
+    if (disabled) return;
+    if (!open && multi) openValueRef.current = value ?? [];
+    setOpen(v => !v);
+  };
 
   const selectedOptions = multi
     ? options.filter(o => (value || []).includes(o.id))
@@ -45,9 +59,12 @@ export function SelectField({ label, value, options, onChange, disabled, showInf
     if (multi) {
       const cur = value || [];
       onChange(cur.includes(id) ? cur.filter(x => x !== id) : [...cur, id]);
+      setQuery("");
+      if (inputRef.current) inputRef.current.focus();
     } else {
       onChange(id);
       setOpen(false);
+      setQuery("");
     }
   };
 
@@ -57,7 +74,7 @@ export function SelectField({ label, value, options, onChange, disabled, showInf
     const visible = tags.slice(0, maxVisible);
     const extra = tags.length - maxVisible;
     return (
-      <div style={{ display: "flex", flexWrap: "nowrap", gap: 6, alignItems: "center", overflow: "hidden", flex: 1, minWidth: 0 }}>
+      <>
         {visible.map(o => (
           <span key={o.id} style={{ display: "inline-flex", alignItems: "center", gap: 4, background: "#fff", borderRadius: 6, padding: "4px 10px", fontSize: 17, lineHeight: "24px", color: "#1A1A1A", whiteSpace: "nowrap", flexShrink: 1, minWidth: 0, maxWidth: 160, overflow: "hidden" }}>
             <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{shortName(o.name)}</span>
@@ -67,14 +84,14 @@ export function SelectField({ label, value, options, onChange, disabled, showInf
         {extra > 0 && (
           <span style={{ fontSize: 17, lineHeight: "24px", color: "#1D2023", whiteSpace: "nowrap", flexShrink: 0 }}>+{extra}</span>
         )}
-      </div>
+      </>
     );
   };
 
   return (
     <div ref={ref} style={{ display: "flex", flexDirection: "column", gap: 6, position: "relative" }}>
       <div
-        onClick={() => !disabled && setOpen(v => !v)}
+        onClick={handleToggle}
         style={{
           position: "relative", height: 64,
           background: disabled ? "#F8F8FB" : "#F2F3F7",
@@ -158,8 +175,8 @@ export function SelectField({ label, value, options, onChange, disabled, showInf
           })}
           {multi && (
             <div style={{ padding: "12px 16px", display: "flex", gap: 12, background: "#fff", borderTop: "1px solid #F2F3F7" }}>
-              <button onClick={() => { onChange([]); setOpen(false); }} style={{ flex: 1, height: 44, background: "#F2F3F7", color: "#1A1A1A", border: "none", borderRadius: 10, cursor: "pointer", fontSize: 12, lineHeight: "16px", fontWeight: 700, letterSpacing: "0.05em", textTransform: "uppercase", fontFamily: "'MTSWide', sans-serif" }}>СБРОСИТЬ</button>
-              <button onClick={() => setOpen(false)} style={{ flex: 2, height: 44, background: "#0066FF", color: "#fff", border: "none", borderRadius: 10, cursor: "pointer", fontSize: 12, lineHeight: "16px", fontWeight: 700, letterSpacing: "0.05em", textTransform: "uppercase", fontFamily: "'MTSWide', sans-serif" }}>ПРИМЕНИТЬ</button>
+              <button onClick={() => { onChange([]); openValueRef.current = null; setOpen(false); setQuery(""); }} style={{ flex: 1, height: 44, background: "#F2F3F7", color: "#1A1A1A", border: "none", borderRadius: 10, cursor: "pointer", fontSize: 12, lineHeight: "16px", fontWeight: 700, letterSpacing: "0.05em", textTransform: "uppercase", fontFamily: "'MTSWide', sans-serif" }}>СБРОСИТЬ</button>
+              <button onClick={() => { openValueRef.current = null; setOpen(false); setQuery(""); }} style={{ flex: 2, height: 44, background: "#0066FF", color: "#fff", border: "none", borderRadius: 10, cursor: "pointer", fontSize: 12, lineHeight: "16px", fontWeight: 700, letterSpacing: "0.05em", textTransform: "uppercase", fontFamily: "'MTSWide', sans-serif" }}>ПРИМЕНИТЬ</button>
             </div>
           )}
         </div>
