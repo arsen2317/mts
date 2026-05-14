@@ -417,7 +417,7 @@ function ByMeCard({ item, onSelect }) {
 
 // ── Card: to-me ───────────────────────────────────────────────────────
 
-function ToMeCard({ item, onDecline }) {
+function ToMeCard({ item, onDecline, readOnly }) {
   const [expanded, setExpanded] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
   const [showDeclineModal, setShowDeclineModal] = useState(false);
@@ -462,7 +462,7 @@ function ToMeCard({ item, onDecline }) {
             )}
             {(item.status === "conducted" || item.status === "done") && (
               <>
-                <div ref={menuRef} style={{ position: "relative" }}>
+                {!readOnly && <div ref={menuRef} style={{ position: "relative" }}>
                   <button onClick={() => setShowMenu(v => !v)} style={{ width: 44, height: 44, background: showMenu ? "#E8E9EF" : "#F2F3F7", border: "none", borderRadius: 16, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>
                     <svg width="18" height="4" viewBox="0 0 18 4" fill="none">
                       <path d="M0.0180118 1.53841C0.0612773 0.957075 0.08291 0.666409 0.37466 0.37466C0.666409 0.08291 0.957075 0.0612773 1.53841 0.0180118C1.6891 0.00679629 1.84455 0 2 0C2.15545 0 2.3109 0.00679629 2.46159 0.0180118C3.04293 0.0612773 3.33359 0.08291 3.62534 0.37466C3.91709 0.666409 3.93872 0.957075 3.98199 1.53841C3.9932 1.6891 4 1.84455 4 2C4 2.15545 3.9932 2.3109 3.98199 2.46159C3.93872 3.04293 3.91709 3.33359 3.62534 3.62534C3.33359 3.91709 3.04293 3.93872 2.46159 3.98199C2.3109 3.9932 2.15545 4 2 4C1.84455 4 1.6891 3.9932 1.53841 3.98199C0.957075 3.93872 0.666409 3.91709 0.37466 3.62534C0.08291 3.33359 0.0612773 3.04293 0.0180118 2.46159C0.00679629 2.3109 0 2.15545 0 2C0 1.84455 0.00679629 1.6891 0.0180118 1.53841Z" fill="#1D2023"/>
@@ -482,7 +482,7 @@ function ToMeCard({ item, onDecline }) {
                       >Отказаться от делегирования</div>
                     </div>
                   )}
-                </div>
+                </div>}
                 <button onClick={() => setExpanded(v => !v)} style={{ width: 44, height: 44, background: "#F2F3F7", border: "none", borderRadius: 16, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>
                   {expanded ? <ChevronUp /> : <ChevronDown />}
                 </button>
@@ -490,7 +490,7 @@ function ToMeCard({ item, onDecline }) {
             )}
             {item.status === "cancelled" && (
               <>
-                <div ref={menuRef} style={{ position: "relative" }}>
+                {!readOnly && <div ref={menuRef} style={{ position: "relative" }}>
                   <button onClick={() => setShowMenu(v => !v)} style={{ width: 44, height: 44, background: showMenu ? "#E8E9EF" : "#F2F3F7", border: "none", borderRadius: 16, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>
                     <svg width="18" height="4" viewBox="0 0 18 4" fill="none">
                       <path d="M0.0180118 1.53841C0.0612773 0.957075 0.08291 0.666409 0.37466 0.37466C0.666409 0.08291 0.957075 0.0612773 1.53841 0.0180118C1.6891 0.00679629 1.84455 0 2 0C2.15545 0 2.3109 0.00679629 2.46159 0.0180118C3.04293 0.0612773 3.33359 0.08291 3.62534 0.37466C3.91709 0.666409 3.93872 0.957075 3.98199 1.53841C3.9932 1.6891 4 1.84455 4 2C4 2.15545 3.9932 2.3109 3.98199 2.46159C3.93872 3.04293 3.91709 3.33359 3.62534 3.62534C3.33359 3.91709 3.04293 3.93872 2.46159 3.98199C2.3109 3.9932 2.15545 4 2 4C1.84455 4 1.6891 3.9932 1.53841 3.98199C0.957075 3.93872 0.666409 3.91709 0.37466 3.62534C0.08291 3.33359 0.0612773 3.04293 0.0180118 2.46159C0.00679629 2.3109 0 2.15545 0 2C0 1.84455 0.00679629 1.6891 0.0180118 1.53841Z" fill="#1D2023"/>
@@ -510,7 +510,7 @@ function ToMeCard({ item, onDecline }) {
                       >Отказаться от делегирования</div>
                     </div>
                   )}
-                </div>
+                </div>}
                 <button onClick={() => setExpanded(v => !v)} style={{ width: 44, height: 44, background: "#F2F3F7", border: "none", borderRadius: 16, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>
                   {expanded ? <ChevronUp /> : <ChevronDown />}
                 </button>
@@ -708,7 +708,7 @@ export default function DelegationList({ onNavigate, toast, onToastDone }) {
         ) : (
           <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
             {toMeCards.map(item => (
-              <ToMeCard key={item.id} item={item} onDecline={() => setLocalToast("Вы отказались от делегирования")} />
+              <ToMeCard key={item.id} item={item} onDecline={() => setLocalToast("Вы отказались от делегирования")} readOnly={!isActive} />
             ))}
           </div>
         )}
