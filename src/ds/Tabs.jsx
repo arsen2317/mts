@@ -21,7 +21,7 @@ export function Tabs({ tabs, active, onChange }) {
             {t.label}
           </span>
           {t.count != null && (
-            <span style={{ height: 20, padding: "0 6px", background: "#F2F3F7", borderRadius: 100, fontSize: 12, fontWeight: 700, lineHeight: "20px", color: "#1D2023", display: "inline-flex", alignItems: "center", fontFamily: "'MTSWide', sans-serif" }}>
+            <span style={{ height: 20, padding: "0 6px", background: "#F2F3F7", borderRadius: 100, fontSize: 12, fontWeight: 500, lineHeight: "20px", color: "#1D2023", display: "inline-flex", alignItems: "center", fontFamily: "'MTSCompact', sans-serif" }}>
               {t.count}
             </span>
           )}
