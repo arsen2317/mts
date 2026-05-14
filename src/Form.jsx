@@ -5,9 +5,9 @@ const DATA = {
   delegates: [
     { id: "dl1", name: "Монахов Михаил Константинович" },
     { id: "dl2", name: "Монахов Андрей Константинович" },
-    { id: "dl3", name: "Светлана Громова" },
+    { id: "dl3", name: "Громова Светлана Александровна" },
     { id: "dl4", name: "Иванов Иван Иванович" },
-  ],
+  ].sort((a, b) => a.name.localeCompare(b.name, "ru")),
   divisions: [
     { id: "d1", name: "Стрим Платежи и переводы на Дэйли витринах" },
     { id: "d2", name: "Центр компетенций портальных решений" },
@@ -75,7 +75,9 @@ export default function Form({ onNavigate }) {
   const [showConfirm, setShowConfirm] = useState(false);
 
   const campaignOptions = division ? (DATA.campaigns[division] || []) : [];
-  const employeeOptions = campaign ? (DATA.employees[campaign] || []) : [];
+  const employeeOptions = campaign
+    ? [...(DATA.employees[campaign] || [])].sort((a, b) => a.name.localeCompare(b.name, "ru"))
+    : [];
 
   const handleDivision = (val) => {
     const changed = division && division !== val;
@@ -119,7 +121,7 @@ export default function Form({ onNavigate }) {
         <div style={{ maxWidth: 560, display: "flex", flexDirection: "column" }}>
 
           <div style={{ marginBottom: 8 }}>
-            <SelectField label="Делегат" value={delegate} options={DATA.delegates} onChange={setDelegate} showInfo={true} />
+            <SelectField label="Кому делегировать" value={delegate} options={DATA.delegates} onChange={setDelegate} showInfo={true} searchable={true} />
           </div>
           <div style={{ fontSize: 12, lineHeight: "16px", color: "#8C9BAB", marginBottom: 24, paddingLeft: 4 }}>
             Доступен выбор всех сотрудников банка. Исключения: председатель правления, грейд А, уволенные, сотрудники в декрете
@@ -137,7 +139,7 @@ export default function Form({ onNavigate }) {
           </div>
 
           <div style={{ marginBottom: 16 }}>
-            <SelectField label="Сотрудники" value={employees} options={employeeOptions} onChange={handleEmployees} disabled={!campaign} multi={true} lockedHint={!division ? "Сначала выберите подразделение" : !campaign ? "Сначала выберите кампанию" : null} />
+            <SelectField label="Сотрудники" value={employees} options={employeeOptions} onChange={handleEmployees} disabled={!campaign} multi={true} searchable={true} lockedHint={!division ? "Сначала выберите подразделение" : !campaign ? "Сначала выберите кампанию" : null} />
           </div>
 
           <div style={{ marginBottom: delegateInEmployees ? 16 : 32 }}>

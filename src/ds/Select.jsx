@@ -17,14 +17,26 @@ function shortName(name) {
 
 // ─── Icons ────────────────────────────────────────────────────────────
 
-export function SelectField({ label, value, options, onChange, disabled, showInfo, multi, lockedHint }) {
+export function SelectField({ label, value, options, onChange, disabled, showInfo, multi, lockedHint, searchable }) {
   const [open, setOpen] = useState(false);
+  const [query, setQuery] = useState("");
   const ref = useRef(null);
-  useOutsideClick(ref, () => setOpen(false));
+  const inputRef = useRef(null);
+  useOutsideClick(ref, () => { setOpen(false); setQuery(""); });
+
+  useEffect(() => {
+    if (open && searchable && inputRef.current) inputRef.current.focus();
+  }, [open, searchable]);
+
+  useEffect(() => { if (!open) setQuery(""); }, [open]);
 
   const selectedOptions = multi
     ? options.filter(o => (value || []).includes(o.id))
     : options.find(o => o.id === value);
+
+  const filteredOptions = searchable && query
+    ? options.filter(o => o.name.toLowerCase().includes(query.toLowerCase()))
+    : options;
 
   const hasValue = multi ? (value || []).length > 0 : !!value;
   const isLabelFloated = hasValue || open;
@@ -94,11 +106,22 @@ export function SelectField({ label, value, options, onChange, disabled, showInf
         </span>
 
         {/* Value */}
-        {hasValue && (
-          <div style={{ marginTop: 20, flex: 1, fontSize: 17, lineHeight: "24px", color: disabled ? "#BCC3D0" : "#1D2023", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", display: "flex", alignItems: "center", minWidth: 0 }}>
-            {multi ? renderTags() : <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{selectedOptions?.name}</span>}
-          </div>
-        )}
+        <div style={{ marginTop: isLabelFloated ? 20 : 0, flex: 1, fontSize: 17, lineHeight: "24px", color: disabled ? "#BCC3D0" : "#1D2023", overflow: "hidden", display: "flex", alignItems: "center", minWidth: 0, gap: 6 }}>
+          {hasValue && (multi
+            ? renderTags()
+            : <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{selectedOptions?.name}</span>
+          )}
+          {open && searchable && (
+            <input
+              ref={inputRef}
+              value={query}
+              onChange={e => setQuery(e.target.value)}
+              onClick={e => e.stopPropagation()}
+              placeholder={hasValue ? "" : "Начните вводить имя…"}
+              style={{ border: "none", outline: "none", background: "transparent", fontSize: 17, lineHeight: "24px", color: "#1D2023", flex: 1, minWidth: 80, padding: 0, fontFamily: "inherit" }}
+            />
+          )}
+        </div>
 
         {/* Right icons */}
         <div style={{ display: "flex", alignItems: "center", marginLeft: "auto", flexShrink: 0 }}>
@@ -113,10 +136,10 @@ export function SelectField({ label, value, options, onChange, disabled, showInf
       {/* Dropdown */}
       {open && !disabled && (
         <div style={{ position: "absolute", top: 68, left: 0, right: 0, zIndex: 100, background: "#fff", borderRadius: 12, boxShadow: "0 8px 24px rgba(0,0,0,0.1)", border: "1px solid #E8EDF2", overflow: "hidden" }}>
-          {options.length === 0 && (
-            <div style={{ padding: "14px 16px", fontSize: 17, color: "#8C9BAB" }}>Нет вариантов</div>
+          {filteredOptions.length === 0 && (
+            <div style={{ padding: "14px 16px", fontSize: 17, color: "#8C9BAB" }}>{query ? "Ничего не найдено" : "Нет вариантов"}</div>
           )}
-          {options.map(opt => {
+          {filteredOptions.map(opt => {
             const sel = multi ? (value || []).includes(opt.id) : value === opt.id;
             return (
               <div key={opt.id} onClick={() => toggle(opt.id)}
