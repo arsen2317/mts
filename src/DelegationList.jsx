@@ -155,7 +155,7 @@ const TO_ME_DONE = [
   },
 ];
 
-function CardDetailModal({ item, onClose }) {
+function CardDetailModal({ item, onClose, onEdit }) {
   const isActive = item.status === "active" || item.status === "planned";
   return (
     <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.4)", zIndex: 500, display: "flex", alignItems: "center", justifyContent: "center" }} onClick={onClose}>
@@ -240,7 +240,7 @@ function CardDetailModal({ item, onClose }) {
             {isActive && (
               <button style={{ height: 44, padding: "0 20px", background: "#F2F3F7", color: "#D8400C", border: "none", borderRadius: 16, cursor: "pointer", ...BTN_STYLE }}>ЗАВЕРШИТЬ ДОСРОЧНО</button>
             )}
-            <button style={{ height: 44, padding: "0 20px", background: "#F2F3F7", color: "#1D2023", border: "none", borderRadius: 16, cursor: "pointer", ...BTN_STYLE }}>РЕДАКТИРОВАТЬ</button>
+            <button onClick={() => { onClose(); onEdit(item); }} style={{ height: 44, padding: "0 20px", background: "#F2F3F7", color: "#1D2023", border: "none", borderRadius: 16, cursor: "pointer", ...BTN_STYLE }}>РЕДАКТИРОВАТЬ</button>
           </div>
         </div>
       </div>
@@ -561,7 +561,7 @@ export default function DelegationList({ onNavigate, toast, onToastDone }) {
         )}
       </div>
 
-      {selectedCard && <CardDetailModal item={selectedCard} onClose={() => setSelectedCard(null)} />}
+      {selectedCard && <CardDetailModal item={selectedCard} onClose={() => setSelectedCard(null)} onEdit={(item) => { setSelectedCard(null); onNavigate("edit", false, item); }} />}
 
       {toast && (
         <div style={{ position: "fixed", bottom: 36, left: 0, right: 0, display: "flex", justifyContent: "center", zIndex: 600, pointerEvents: "none" }}>
