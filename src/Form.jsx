@@ -5,9 +5,9 @@ const DATA = {
   delegates: [
     { id: "dl1", name: "Монахов Михаил Константинович" },
     { id: "dl2", name: "Монахов Андрей Константинович" },
-    { id: "dl3", name: "Светлана Громова" },
+    { id: "dl3", name: "Громова Светлана Александровна" },
     { id: "dl4", name: "Иванов Иван Иванович" },
-  ],
+  ].sort((a, b) => a.name.localeCompare(b.name, "ru")),
   divisions: [
     { id: "d1", name: "Стрим Платежи и переводы на Дэйли витринах" },
     { id: "d2", name: "Центр компетенций портальных решений" },
@@ -121,7 +121,7 @@ export default function Form({ onNavigate }) {
         <div style={{ maxWidth: 560, display: "flex", flexDirection: "column" }}>
 
           <div style={{ marginBottom: 8 }}>
-            <SelectField label="Делегат" value={delegate} options={DATA.delegates} onChange={setDelegate} showInfo={true} />
+            <SelectField label="Кому делегировать" value={delegate} options={DATA.delegates} onChange={setDelegate} showInfo={true} searchable={true} />
           </div>
           <div style={{ fontSize: 12, lineHeight: "16px", color: "#8C9BAB", marginBottom: 24, paddingLeft: 4 }}>
             Доступен выбор всех сотрудников банка. Исключения: председатель правления, грейд А, уволенные, сотрудники в декрете
