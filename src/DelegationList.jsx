@@ -7,24 +7,45 @@ const BY_ME_ACTIVE = [
     name: "Палевская София", role: "Ведущий специалист по адаптации",
     division: "Центр компетенций портальных решений",
     employees: "Гаврилов А., Жуков А., Ростиславский В., Константинопольский К., Иванова",
+    employeeDetails: [
+      { name: "Гаврилов Андрей Петрович", role: "Аналитик", status: "assigned" },
+      { name: "Жуков Алексей Вадимович", role: "Аналитик", status: "assigned" },
+      { name: "Ростиславский Владимир", role: "Старший аналитик", status: "assigned" },
+      { name: "Константинопольский Константин Сергеевич", role: "Системный аналитик", status: "assigned" },
+      { name: "Иванова Мария Александровна", role: "Аналитик", status: "assigned", declineReason: "сотрудник в отпуске, нет возможности провести встречу" },
+    ],
   },
   {
     id: 2, status: "planned", dates: "15.11.2026 – 20.11.2026", campaign: "One-on-one",
     name: "Константинопольский Константин", role: "Директор по управлению данными",
     division: "Департамент управления данными",
     employees: "Все сотрудники подразделения (12)",
+    employeeDetails: [
+      { name: "Петров Сергей Николаевич", role: "Ведущий аналитик", status: "assigned" },
+      { name: "Смирнова Ольга Викторовна", role: "Аналитик данных", status: "assigned" },
+    ],
   },
   {
     id: 3, status: "active", dates: "15.11.2026 – 20.11.2026", campaign: "Performance review",
     name: "Монахов Михаил", role: "Технический лидер Стрима",
     division: "Стрим Платежи и переводы на Дэйли витринах",
     employees: "Все сотрудники подразделения (34)",
+    employeeDetails: [
+      { name: "Кузнецов Илья Романович", role: "Разработчик", status: "conducted" },
+      { name: "Новикова Екатерина Дмитриевна", role: "Тестировщик", status: "assigned" },
+      { name: "Борисов Антон Сергеевич", role: "Аналитик", status: "assigned" },
+    ],
   },
   {
     id: 4, status: "active", dates: "15.11.2026 – 20.11.2026", campaign: "Performance review",
     name: "Ольга Ильина", role: "Ведущий системный аналитик",
     division: "Стрим Платежи и переводы на Дэйли витринах",
     employees: "Коновалов А., Артюхова Б.",
+    employeeDetails: [
+      { name: "Ананасов Виктор Владимирович", role: "Аналитик", status: "assigned" },
+      { name: "Заковыркина Марина Викторовна", role: "Аналитик", status: "assigned", declineReason: "сотрудник в отпуске, нет возможности провести встречу" },
+      { name: "Гаврилов Андрей Петрович", role: "Аналитик", status: "conducted" },
+    ],
   },
 ];
 
@@ -113,9 +134,102 @@ const TO_ME_DONE = [
   },
 ];
 
-function ByMeCard({ item }) {
+function CardDetailModal({ item, onClose }) {
+  const isActive = item.status === "active" || item.status === "planned";
   return (
-    <div style={{ background: "#fff", borderRadius: 32, outline: "1px solid rgba(188,195,208,0.5)", outlineOffset: -1, padding: "32px", flex: "1 1 0", minWidth: 0 }}>
+    <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.4)", zIndex: 500, display: "flex", alignItems: "center", justifyContent: "center" }} onClick={onClose}>
+      <div style={{ width: 744, maxHeight: "90vh", background: "#fff", borderRadius: 32, boxShadow: "0px 8px 16px rgba(0,0,0,0.08), 0px 4px 24px rgba(0,0,0,0.12)", display: "flex", flexDirection: "column", overflow: "hidden" }} onClick={e => e.stopPropagation()}>
+
+        {/* Header */}
+        <div style={{ padding: 32, display: "flex", alignItems: "flex-start", gap: 8, flexShrink: 0 }}>
+          <div style={{ flex: 1, paddingTop: 4, paddingBottom: 4, color: "#1D2023", fontSize: 20, fontFamily: "'MTSWide', sans-serif", fontWeight: 500, lineHeight: "24px" }}>Информация о делегировании</div>
+          <button onClick={onClose} style={{ padding: 4, background: "#F2F3F7", border: "none", borderRadius: 12, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M6 6l12 12M18 6L6 18" stroke="#1D2023" strokeWidth="1.5" strokeLinecap="round"/>
+            </svg>
+          </button>
+        </div>
+
+        {/* Scrollable body */}
+        <div style={{ overflowY: "auto", paddingLeft: 32, paddingRight: 32, paddingBottom: 32 }}>
+
+          {/* Status */}
+          <div style={{ paddingBottom: 8 }}>
+            <StatusBadge type={item.status} />
+          </div>
+
+          {/* Delegate */}
+          <div style={{ paddingTop: 10, paddingBottom: 10, display: "flex", alignItems: "center", gap: 12 }}>
+            <PersonAvatar />
+            <div>
+              <div style={{ color: "#1D2023", fontSize: 17, fontFamily: "'MTSCompact', sans-serif", lineHeight: "24px" }}>{item.name}</div>
+              <div style={{ color: "#626C77", fontSize: 14, fontFamily: "'MTSCompact', sans-serif", lineHeight: "20px" }}>{item.role}</div>
+            </div>
+          </div>
+
+          {/* Campaign */}
+          <div style={{ paddingTop: 10, paddingBottom: 10 }}>
+            <div style={{ color: "#626C77", fontSize: 14, fontFamily: "'MTSCompact', sans-serif", lineHeight: "20px" }}>Кампания</div>
+            <div style={{ color: "#1D2023", fontSize: 17, fontFamily: "'MTSCompact', sans-serif", lineHeight: "24px" }}>{item.campaign} {item.dates}</div>
+          </div>
+
+          {/* Division */}
+          <div style={{ paddingTop: 10, paddingBottom: 10 }}>
+            <div style={{ color: "#626C77", fontSize: 14, fontFamily: "'MTSCompact', sans-serif", lineHeight: "20px" }}>Подразделение</div>
+            <div style={{ color: "#1D2023", fontSize: 17, fontFamily: "'MTSCompact', sans-serif", lineHeight: "24px" }}>{item.division}</div>
+          </div>
+
+          {/* Employees */}
+          {item.employeeDetails && (
+            <div>
+              <div style={{ paddingTop: 20, paddingBottom: 8, display: "flex", alignItems: "flex-end", gap: 8 }}>
+                <div style={{ color: "#626C77", fontSize: 14, fontFamily: "'MTSCompact', sans-serif", fontWeight: 500, textTransform: "uppercase", lineHeight: "20px" }}>Сотрудники</div>
+                <div style={{ color: "#626C77", fontSize: 14, fontFamily: "'MTSCompact', sans-serif", lineHeight: "20px" }}>{item.employeeDetails.length}</div>
+              </div>
+              {item.employeeDetails.map((emp, i) => (
+                <div key={i}>
+                  {i > 0 && <div style={{ height: 1, background: "rgba(188,195,208,0.5)" }} />}
+                  <div style={{ paddingTop: 10, paddingBottom: 10, display: "flex", alignItems: "center", gap: 12 }}>
+                    <PersonAvatar />
+                    <div style={{ flex: 1 }}>
+                      <div style={{ color: "#1D2023", fontSize: 17, fontFamily: "'MTSCompact', sans-serif", lineHeight: "24px" }}>{emp.name}</div>
+                      <div style={{ color: "#626C77", fontSize: 14, fontFamily: "'MTSCompact', sans-serif", lineHeight: "20px" }}>{emp.role}</div>
+                    </div>
+                    <StatusBadge type={emp.status} />
+                  </div>
+                  {emp.declineReason && (
+                    <div style={{ minHeight: 44, padding: 12, background: "#F2F3F7", borderRadius: 16, display: "flex", gap: 8, marginBottom: 10 }}>
+                      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" style={{ flexShrink: 0, marginTop: 1 }}>
+                        <circle cx="10" cy="10" r="10" fill="#F95721"/>
+                        <path d="M10 6v5M10 14h.01" stroke="#fff" strokeWidth="1.5" strokeLinecap="round"/>
+                      </svg>
+                      <div style={{ flex: 1 }}>
+                        <div style={{ color: "#1D2023", fontSize: 14, fontFamily: "'MTSCompact', sans-serif", lineHeight: "20px" }}>Делегат отказался от встречи</div>
+                        <div style={{ color: "#626C77", fontSize: 12, fontFamily: "'MTSCompact', sans-serif", lineHeight: "16px" }}>Причина отказа: {emp.declineReason}</div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Actions */}
+          <div style={{ paddingTop: 24, display: "flex", justifyContent: "flex-end", gap: 10 }}>
+            {isActive && (
+              <button style={{ height: 44, padding: "0 20px", background: "#F2F3F7", color: "#D8400C", border: "none", borderRadius: 16, cursor: "pointer", ...BTN_STYLE }}>ЗАВЕРШИТЬ ДОСРОЧНО</button>
+            )}
+            <button style={{ height: 44, padding: "0 20px", background: "#F2F3F7", color: "#1D2023", border: "none", borderRadius: 16, cursor: "pointer", ...BTN_STYLE }}>РЕДАКТИРОВАТЬ</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ByMeCard({ item, onSelect }) {
+  return (
+    <div onClick={onSelect} style={{ background: "#fff", borderRadius: 32, outline: "1px solid rgba(188,195,208,0.5)", outlineOffset: -1, padding: "32px", flex: "1 1 0", minWidth: 0, cursor: "pointer" }}>
       <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
           <StatusBadge type={item.status} />
@@ -325,6 +439,7 @@ function ToMeCard({ item }) {
 export default function DelegationList({ onNavigate }) {
   const [tab, setTab] = useState("byMe");        // "byMe" | "toMe"
   const [filter, setFilter] = useState("active"); // "active" | "done"
+  const [selectedCard, setSelectedCard] = useState(null);
 
   const isByMe = tab === "byMe";
   const isActive = filter === "active";
@@ -404,7 +519,7 @@ export default function DelegationList({ onNavigate }) {
             {Array.from({ length: Math.ceil(byMeCards.length / 2) }).map((_, row) => (
               <div key={row} style={{ display: "flex", gap: 32 }}>
                 {byMeCards.slice(row * 2, row * 2 + 2).map(item => (
-                  <ByMeCard key={item.id} item={item} />
+                  <ByMeCard key={item.id} item={item} onSelect={() => setSelectedCard(item)} />
                 ))}
                 {byMeCards.slice(row * 2, row * 2 + 2).length === 1 && <div style={{ flex: "1 1 0" }} />}
               </div>
@@ -418,6 +533,8 @@ export default function DelegationList({ onNavigate }) {
           </div>
         )}
       </div>
+
+      {selectedCard && <CardDetailModal item={selectedCard} onClose={() => setSelectedCard(null)} />}
     </div>
   );
 }

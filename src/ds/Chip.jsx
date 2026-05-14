@@ -11,7 +11,7 @@ const STATUS_STYLES = {
 export function StatusBadge({ type }) {
   const s = STATUS_STYLES[type] || STATUS_STYLES.done;
   return (
-    <span style={{ display: "inline-flex", alignItems: "center", padding: "2px 6px", background: s.bg, color: s.color, borderRadius: 8, fontSize: 14, fontWeight: 500, lineHeight: "20px", whiteSpace: "nowrap" }}>
+    <span style={{ display: "inline-flex", alignItems: "center", padding: "2px 6px", background: s.bg, color: s.color, borderRadius: 8, fontSize: 14, fontWeight: 500, lineHeight: "20px", whiteSpace: "nowrap", fontFamily: "'MTSCompact', sans-serif" }}>
       {s.label}
     </span>
   );
@@ -19,7 +19,7 @@ export function StatusBadge({ type }) {
 
 export function Tag({ label }) {
   return (
-    <span style={{ display: "inline-flex", alignItems: "center", padding: "2px 6px", background: "#F2F3F7", color: "#1D2023", borderRadius: 8, fontSize: 14, fontWeight: 500, lineHeight: "20px", whiteSpace: "nowrap" }}>
+    <span style={{ display: "inline-flex", alignItems: "center", padding: "2px 6px", background: "#F2F3F7", color: "#1D2023", borderRadius: 8, fontSize: 14, fontWeight: 500, lineHeight: "20px", whiteSpace: "nowrap", fontFamily: "'MTSCompact', sans-serif", alignSelf: "flex-start" }}>
       {label}
     </span>
   );
