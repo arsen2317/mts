@@ -503,8 +503,8 @@ export default function DelegationList({ onNavigate, toast, onToastDone }) {
         <div style={{ paddingTop: 12 }}>
           <Tabs
             tabs={[
-              { key: "byMe", label: "Делегированы мною", count: BY_ME_ACTIVE_COUNT + BY_ME_DONE_COUNT },
-              { key: "toMe", label: "Делегированы мне",  count: TO_ME_ACTIVE.length + TO_ME_DONE.length },
+              { key: "byMe", label: "Делегированы мною", count: BY_ME_ACTIVE_COUNT },
+              { key: "toMe", label: "Делегированы мне",  count: TO_ME_ACTIVE.length },
             ]}
             active={tab}
             onChange={setTab}
