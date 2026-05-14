@@ -436,10 +436,16 @@ function ToMeCard({ item }) {
 
 // ── Header ────────────────────────────────────────────────────────────
 
-export default function DelegationList({ onNavigate }) {
-  const [tab, setTab] = useState("byMe");        // "byMe" | "toMe"
-  const [filter, setFilter] = useState("active"); // "active" | "done"
+export default function DelegationList({ onNavigate, toast, onToastDone }) {
+  const [tab, setTab] = useState("byMe");
+  const [filter, setFilter] = useState("active");
   const [selectedCard, setSelectedCard] = useState(null);
+
+  useEffect(() => {
+    if (!toast) return;
+    const t = setTimeout(() => onToastDone && onToastDone(), 3000);
+    return () => clearTimeout(t);
+  }, [toast]);
 
   const isByMe = tab === "byMe";
   const isActive = filter === "active";
@@ -535,6 +541,21 @@ export default function DelegationList({ onNavigate }) {
       </div>
 
       {selectedCard && <CardDetailModal item={selectedCard} onClose={() => setSelectedCard(null)} />}
+
+      {toast && (
+        <div style={{ position: "fixed", bottom: 36, left: 0, right: 0, display: "flex", justifyContent: "center", zIndex: 600, pointerEvents: "none" }}>
+          <div style={{ paddingLeft: 12, paddingRight: 12, paddingTop: 8, paddingBottom: 8, background: "#1D2023", borderRadius: 16, display: "inline-flex", alignItems: "flex-start", gap: 8 }}>
+            <div style={{ width: 20, height: 22, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="9" fill="#45B6FC"/>
+                <rect x="11" y="10" width="2" height="6" rx="1" fill="#1D2023"/>
+                <rect x="11" y="7" width="2" height="2" rx="1" fill="#1D2023"/>
+              </svg>
+            </div>
+            <div style={{ color: "#FAFAFA", fontSize: 17, fontFamily: "'MTSCompact', sans-serif", fontWeight: 400, lineHeight: "24px" }}>Изменения сохранены</div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -72,7 +72,6 @@ export default function Form({ onNavigate }) {
   const [campaign, setCampaign] = useState("");
   const [employees, setEmployees] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
 
   const campaignOptions = division ? (DATA.campaigns[division] || []) : [];
@@ -108,39 +107,6 @@ export default function Form({ onNavigate }) {
 
   const allFilled = delegate && division && campaign && employees.length > 0;
 
-  const reset = () => { setDelegate(""); setDivision(""); setCampaign(""); setEmployees([]); setSelectAll(false); };
-
-  if (submitted) {
-    const div = DATA.divisions.find(d => d.id === division);
-    const camp = campaignOptions.find(c => c.id === campaign);
-    const del = DATA.delegates.find(d => d.id === delegate);
-    const emps = employeeOptions.filter(e => employees.includes(e.id));
-    return (
-      <div style={{ minHeight: "100vh", background: "#fff", fontFamily: "'MTSCompact', sans-serif" }}>
-        <style>{`* { box-sizing: border-box; margin: 0; padding: 0; }` + FONT_CSS}</style>
-        <Header />
-        <div style={{ padding: "0 88px 88px" }}>
-          <div style={{ paddingTop: 24 }}><Breadcrumbs /></div>
-          <h1 style={{ fontSize: 32, fontWeight: 500, lineHeight: "36px", fontFamily: "'MTSWide', sans-serif", color: "#1D2023", margin: "36px 0 44px" }}>Создание делегирования</h1>
-          <div style={{ maxWidth: 560 }}>
-            <Banner type="info" title="Делегирование создано успешно" />
-            <div style={{ marginTop: 24, display: "flex", flexDirection: "column", gap: 8 }}>
-              {[["Делегат", del?.name], ["Подразделение", div?.name], ["Кампания", camp?.name], ["Сотрудники", emps.map(e => e.name).join(", ")]].map(([k, v]) => (
-                <div key={k} style={{ padding: "14px 16px", background: "#F2F3F7", borderRadius: 12 }}>
-                  <div style={{ fontSize: 12, color: "#8C9BAB", marginBottom: 2 }}>{k}</div>
-                  <div style={{ fontSize: 17, color: "#1D2023" }}>{v}</div>
-                </div>
-              ))}
-            </div>
-            <div style={{ marginTop: 24, display: "flex", gap: 12 }}>
-            <button onClick={() => { reset(); setSubmitted(false); }} style={{ height: 52, padding: "0 32px", background: "#0066FF", color: "#fff", border: "none", borderRadius: 10, cursor: "pointer", ...BTN_STYLE }}>НОВОЕ ДЕЛЕГИРОВАНИЕ</button>
-            <button onClick={() => onNavigate && onNavigate("list")} style={{ height: 52, padding: "0 32px", background: "#F2F3F7", color: "#1D2023", border: "none", borderRadius: 10, cursor: "pointer", ...BTN_STYLE }}>К СПИСКУ</button>
-          </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div style={{ minHeight: "100vh", background: "#fff", fontFamily: "'MTSCompact', sans-serif" }}>
@@ -201,7 +167,7 @@ export default function Form({ onNavigate }) {
               <div style={{ textAlign: "center", color: "#626C77", fontSize: 17, fontFamily: "'MTSCompact', sans-serif", lineHeight: "24px" }}>Делегату будет отправлено уведомление</div>
             </div>
             <div style={{ alignSelf: "stretch", paddingTop: 24, display: "flex", gap: 12 }}>
-              <button onClick={() => { setSubmitted(true); setShowConfirm(false); }} style={{ flex: 1, height: 52, background: "#0066FF", color: "#fff", border: "none", borderRadius: 16, cursor: "pointer", ...BTN_STYLE }}>СОХРАНИТЬ</button>
+              <button onClick={() => { setShowConfirm(false); onNavigate && onNavigate("list", true); }} style={{ flex: 1, height: 52, background: "#0066FF", color: "#fff", border: "none", borderRadius: 16, cursor: "pointer", ...BTN_STYLE }}>СОХРАНИТЬ</button>
               <button onClick={() => setShowConfirm(false)} style={{ flex: 1, height: 52, background: "#F2F3F7", color: "#1D2023", border: "none", borderRadius: 16, cursor: "pointer", ...BTN_STYLE }}>ОТМЕНА</button>
             </div>
           </div>
