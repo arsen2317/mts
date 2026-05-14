@@ -124,19 +124,32 @@ export function SelectField({ label, value, options, onChange, disabled, showInf
 
         {/* Value */}
         <div style={{ marginTop: isLabelFloated ? 20 : 0, flex: 1, fontSize: 17, lineHeight: "24px", color: disabled ? "#BCC3D0" : "#1D2023", overflow: "hidden", display: "flex", alignItems: "center", minWidth: 0, gap: 6 }}>
-          {hasValue && (multi
-            ? renderTags()
-            : <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{selectedOptions?.name}</span>
-          )}
-          {open && searchable && (
+          {multi ? (
+            <>
+              {hasValue && renderTags()}
+              {open && searchable && (
+                <input
+                  ref={inputRef}
+                  value={query}
+                  onChange={e => setQuery(e.target.value)}
+                  onClick={e => e.stopPropagation()}
+                  placeholder={hasValue ? "" : "Начните вводить имя…"}
+                  style={{ border: "none", outline: "none", background: "transparent", fontSize: 17, lineHeight: "24px", color: "#1D2023", flex: 1, minWidth: 60, padding: 0, fontFamily: "inherit" }}
+                />
+              )}
+            </>
+          ) : open && searchable ? (
             <input
               ref={inputRef}
               value={query}
               onChange={e => setQuery(e.target.value)}
               onClick={e => e.stopPropagation()}
-              placeholder={hasValue ? "" : "Начните вводить имя…"}
-              style={{ border: "none", outline: "none", background: "transparent", fontSize: 17, lineHeight: "24px", color: "#1D2023", flex: 1, minWidth: 80, padding: 0, fontFamily: "inherit" }}
+              onKeyDown={e => { if (e.key === "Backspace" && query === "" && value) onChange(""); }}
+              placeholder={selectedOptions?.name || "Начните вводить имя…"}
+              style={{ border: "none", outline: "none", background: "transparent", fontSize: 17, lineHeight: "24px", color: "#1D2023", flex: 1, minWidth: 0, padding: 0, fontFamily: "inherit" }}
             />
+          ) : (
+            hasValue && <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{selectedOptions?.name}</span>
           )}
         </div>
 
