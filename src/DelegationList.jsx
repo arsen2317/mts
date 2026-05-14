@@ -72,16 +72,26 @@ const BY_ME_ACTIVE = [
 
 const BY_ME_DONE = [
   {
-    id: 5, status: "rejected", dates: "15.11.2026 – 20.11.2026", campaign: "One-on-one",
-    name: "Иванова Ирина", role: "Специалист по адаптации",
+    id: 5, status: "rejected", dates: "05.03.2026 – 25.03.2026", campaign: "One-on-one",
+    name: "Иванова Ирина", role: "Ведущий системный аналитик",
     division: "Центр компетенций портальных решений",
-    employees: "Гаврилов А., Жуков А., Ростиславский В., Константинопольский К., Иванова",
+    employees: "Ананасов В., Заковыркина М., Гаврилов А.",
+    rejectionReason: "большая загруженность по рабочим задачам, нет возможности провести встречи качественно",
+    employeeDetails: [
+      { name: "Ананасов Виктор Владимирович", role: "Аналитик", status: "assigned" },
+      { name: "Заковыркина Марина Викторовна", role: "Аналитик", status: "assigned" },
+      { name: "Гаврилов Андрей Петрович", role: "Аналитик", status: "assigned" },
+    ],
   },
   {
-    id: 6, status: "done", dates: "15.11.2026 – 20.11.2026", campaign: "One-on-one",
+    id: 6, status: "rejected", dates: "15.11.2026 – 20.11.2026", campaign: "One-on-one",
     name: "Манохин Александр", role: "Директор по управлению данными",
     division: "Департамент управления данными",
-    employees: "Все сотрудники подразделения (12)",
+    employees: "Смирнова О., Новикова Е.",
+    employeeDetails: [
+      { name: "Смирнова Ольга Викторовна", role: "Аналитик", status: "assigned", declineReason: "сотрудник в отпуске, нет возможности провести встречу" },
+      { name: "Новикова Екатерина Дмитриевна", role: "Аналитик", status: "assigned", declineReason: "конфликт интересов" },
+    ],
   },
   {
     id: 7, status: "done", dates: "15.11.2026 – 20.11.2026", campaign: "Performance review",
@@ -219,6 +229,20 @@ function CardDetailModal({ item, onClose, onEdit, onEarlyEnd }) {
             <div style={{ color: "#1D2023", fontSize: 17, fontFamily: "'MTSCompact', sans-serif", lineHeight: "24px" }}>{item.division}</div>
           </div>
 
+          {/* Campaign-level rejection banner */}
+          {item.rejectionReason && (
+            <div style={{ minHeight: 44, padding: 12, background: "#F2F3F7", borderRadius: 16, display: "flex", gap: 8, marginTop: 8, marginBottom: 4 }}>
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" style={{ flexShrink: 0, marginTop: 1 }}>
+                <circle cx="10" cy="10" r="10" fill="#F95721"/>
+                <path d="M7 7l6 6M13 7l-6 6" stroke="#fff" strokeWidth="1.5" strokeLinecap="round"/>
+              </svg>
+              <div style={{ flex: 1 }}>
+                <div style={{ color: "#1D2023", fontSize: 14, fontFamily: "'MTSCompact', sans-serif", lineHeight: "20px" }}>Делегат отказался от кампании</div>
+                <div style={{ color: "#626C77", fontSize: 12, fontFamily: "'MTSCompact', sans-serif", lineHeight: "16px" }}>Причина отказа: {item.rejectionReason}</div>
+              </div>
+            </div>
+          )}
+
           {/* Employees */}
           {item.employeeDetails && (
             <div>
@@ -255,12 +279,12 @@ function CardDetailModal({ item, onClose, onEdit, onEarlyEnd }) {
           )}
 
           {/* Actions */}
-          <div style={{ paddingTop: 24, display: "flex", justifyContent: "flex-end", gap: 10 }}>
-            {isActive && (
+          {isActive && (
+            <div style={{ paddingTop: 24, display: "flex", justifyContent: "flex-end", gap: 10 }}>
               <button onClick={onEarlyEnd} style={{ height: 44, padding: "0 20px", background: "#F2F3F7", color: "#D8400C", border: "none", borderRadius: 16, cursor: "pointer", ...BTN_STYLE }}>ЗАВЕРШИТЬ ДОСРОЧНО</button>
-            )}
-            <button onClick={() => { onClose(); onEdit(item); }} style={{ height: 44, padding: "0 20px", background: "#F2F3F7", color: "#1D2023", border: "none", borderRadius: 16, cursor: "pointer", ...BTN_STYLE }}>РЕДАКТИРОВАТЬ</button>
-          </div>
+              <button onClick={() => { onClose(); onEdit(item); }} style={{ height: 44, padding: "0 20px", background: "#F2F3F7", color: "#1D2023", border: "none", borderRadius: 16, cursor: "pointer", ...BTN_STYLE }}>РЕДАКТИРОВАТЬ</button>
+            </div>
+          )}
         </div>
       </div>
     </div>
