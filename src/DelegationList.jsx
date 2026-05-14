@@ -1,6 +1,27 @@
 import { useState, useRef, useEffect } from "react";
 import { FONT_CSS, Header, BTN_STYLE, SearchIcon, ChevronUp, ChevronDown, BreadChevron, StatusBadge, Tag, Chip, PersonAvatar, Tabs } from "./ds";
 
+const BASE = import.meta.env.BASE_URL;
+const AVATARS = {
+  "Палевская София":                     BASE + "avatars/sofia.png",
+  "Монахов Михаил":                      BASE + "avatars/mikhail.png",
+  "Константинопольский Константин":      BASE + "avatars/konstantin.png",
+  "Константинопольский Константин Сергеевич": BASE + "avatars/konstantin.png",
+  "Ольга Ильина":                        BASE + "avatars/olga.png",
+  "Иванова Ирина":                       BASE + "avatars/irina.png",
+  "Заковыркина Марина":                  BASE + "avatars/marina.png",
+  "Заковыркина Марина Викторовна":       BASE + "avatars/marina.png",
+  "Иванова Мария Александровна":         BASE + "avatars/maria.png",
+  "Смирнова Ольга Викторовна":           BASE + "avatars/smirnova.png",
+  "Новикова Екатерина Дмитриевна":       BASE + "avatars/novikova.png",
+  "Гаврилов Андрей Петрович":            BASE + "avatars/gavrilov.png",
+  "Жуков Алексей Вадимович":             BASE + "avatars/zhukov.png",
+  "Ростиславский Владимир":              BASE + "avatars/rostislavsky.png",
+  "Манохин Александр":                   BASE + "avatars/manokhin.png",
+  "Артёмов Александр":                   BASE + "avatars/artemov.png",
+  "Глаголев Егор":                       BASE + "avatars/egor.png",
+};
+
 const BY_ME_ACTIVE = [
   {
     id: 1, status: "planned", dates: "15.11.2026 – 20.11.2026", campaign: "One-on-one",
@@ -160,7 +181,7 @@ function CardDetailModal({ item, onClose }) {
 
           {/* Delegate */}
           <div style={{ paddingTop: 10, paddingBottom: 10, display: "flex", alignItems: "center", gap: 12 }}>
-            <PersonAvatar />
+            <PersonAvatar src={AVATARS[item.name]} />
             <div>
               <div style={{ color: "#1D2023", fontSize: 17, fontFamily: "'MTSCompact', sans-serif", lineHeight: "24px" }}>{item.name}</div>
               <div style={{ color: "#626C77", fontSize: 14, fontFamily: "'MTSCompact', sans-serif", lineHeight: "20px" }}>{item.role}</div>
@@ -190,7 +211,7 @@ function CardDetailModal({ item, onClose }) {
                 <div key={i}>
                   {i > 0 && <div style={{ height: 1, background: "rgba(188,195,208,0.5)" }} />}
                   <div style={{ paddingTop: 10, paddingBottom: 10, display: "flex", alignItems: "center", gap: 12 }}>
-                    <PersonAvatar />
+                    <PersonAvatar src={AVATARS[emp.name]} />
                     <div style={{ flex: 1 }}>
                       <div style={{ color: "#1D2023", fontSize: 17, fontFamily: "'MTSCompact', sans-serif", lineHeight: "24px" }}>{emp.name}</div>
                       <div style={{ color: "#626C77", fontSize: 14, fontFamily: "'MTSCompact', sans-serif", lineHeight: "20px" }}>{emp.role}</div>
@@ -236,7 +257,7 @@ function ByMeCard({ item, onSelect }) {
           <span style={{ fontSize: 14, color: "#626C77", lineHeight: "20px" }}>{item.dates} ・ {item.campaign}</span>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 12, padding: "10px 0" }}>
-          <PersonAvatar />
+          <PersonAvatar src={AVATARS[item.name]} />
           <div>
             <div style={{ fontSize: 17, color: "#1D2023", lineHeight: "24px" }}>{item.name}</div>
             <div style={{ fontSize: 14, color: "#626C77", lineHeight: "20px" }}>{item.role}</div>
@@ -277,7 +298,7 @@ function ToMeCard({ item }) {
         <div style={{ display: "flex", alignItems: "center", gap: 24 }}>
           {/* Person */}
           <div style={{ flex: 1, display: "flex", alignItems: "center", gap: 12, padding: "10px 0" }}>
-            <PersonAvatar />
+            <PersonAvatar src={AVATARS[item.name]} />
             <div>
               <div style={{ fontSize: 17, color: "#1D2023", lineHeight: "24px" }}>{item.name}</div>
               <div style={{ fontSize: 14, color: "#626C77", lineHeight: "20px" }}>{item.role}</div>

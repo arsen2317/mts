@@ -46,13 +46,16 @@ export function Chip({ active, onClick, children }) {
   );
 }
 
-export function PersonAvatar() {
+export function PersonAvatar({ src }) {
   return (
     <div style={{ width: 52, height: 52, borderRadius: 16, background: "#E8EDF2", flexShrink: 0, display: "flex", alignItems: "flex-end", justifyContent: "center", overflow: "hidden" }}>
-      <svg width="42" height="42" viewBox="0 0 42 42" fill="none">
-        <circle cx="21" cy="17" r="8" fill="#BCC3D0"/>
-        <path d="M5 40c0-8.837 7.163-16 16-16s16 7.163 16 16" fill="#BCC3D0"/>
-      </svg>
+      {src
+        ? <img src={src} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+        : <svg width="42" height="42" viewBox="0 0 42 42" fill="none">
+            <circle cx="21" cy="17" r="8" fill="#BCC3D0"/>
+            <path d="M5 40c0-8.837 7.163-16 16-16s16 7.163 16 16" fill="#BCC3D0"/>
+          </svg>
+      }
     </div>
   );
 }
