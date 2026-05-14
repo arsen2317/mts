@@ -94,16 +94,27 @@ const BY_ME_DONE = [
     ],
   },
   {
-    id: 7, status: "done", dates: "15.11.2026 – 20.11.2026", campaign: "Performance review",
+    id: 7, status: "done", dates: "05.03.2026 – 25.03.2026", campaign: "One-on-one",
     name: "Монахов Михаил", role: "Технический лидер Стрима",
-    division: "Стрим Платежи и переводы на Дэйли витринах",
-    employees: "Все сотрудники подразделения (34)",
+    division: "Центр компетенций портальных решений",
+    employees: "Ананасов В., Заковыркина М., Гаврилов А.",
+    earlyTerminated: true,
+    employeeDetails: [
+      { name: "Ананасов Виктор Владимирович", role: "Аналитик", status: "assigned" },
+      { name: "Заковыркина Марина Викторовна", role: "Аналитик", status: "assigned" },
+      { name: "Гаврилов Андрей Петрович", role: "Аналитик", status: "assigned" },
+    ],
   },
   {
     id: 8, status: "done", dates: "15.11.2026 – 20.11.2026", campaign: "Performance review",
     name: "Артёмов Александр", role: "Ведущий системный аналитик",
     division: "Стрим Платежи и переводы на Дэйли витринах",
-    employees: "Коновалов А., Артюхова Б.",
+    employees: "Смирнова О., Новикова Е., Гаврилов А.",
+    employeeDetails: [
+      { name: "Смирнова Ольга Викторовна", role: "Аналитик", status: "conducted" },
+      { name: "Новикова Екатерина Дмитриевна", role: "Аналитик", status: "conducted" },
+      { name: "Гаврилов Андрей Петрович", role: "Аналитик", status: "conducted" },
+    ],
   },
 ];
 
@@ -228,6 +239,19 @@ function CardDetailModal({ item, onClose, onEdit, onEarlyEnd }) {
             <div style={{ color: "#626C77", fontSize: 14, fontFamily: "'MTSCompact', sans-serif", lineHeight: "20px" }}>Подразделение</div>
             <div style={{ color: "#1D2023", fontSize: 17, fontFamily: "'MTSCompact', sans-serif", lineHeight: "24px" }}>{item.division}</div>
           </div>
+
+          {/* Early termination banner */}
+          {item.earlyTerminated && (
+            <div style={{ minHeight: 44, padding: 12, background: "#F2F3F7", borderRadius: 16, display: "flex", gap: 8, marginTop: 8, marginBottom: 4 }}>
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" style={{ flexShrink: 0, marginTop: 1 }}>
+                <circle cx="10" cy="10" r="10" fill="#F95721"/>
+                <path d="M7 7l6 6M13 7l-6 6" stroke="#fff" strokeWidth="1.5" strokeLinecap="round"/>
+              </svg>
+              <div style={{ flex: 1 }}>
+                <div style={{ color: "#1D2023", fontSize: 14, fontFamily: "'MTSCompact', sans-serif", lineHeight: "20px" }}>Делегирование было завершено руководителем досрочно</div>
+              </div>
+            </div>
+          )}
 
           {/* Campaign-level rejection banner */}
           {item.rejectionReason && (
