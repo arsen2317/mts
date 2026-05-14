@@ -75,7 +75,9 @@ export default function Form({ onNavigate }) {
   const [showConfirm, setShowConfirm] = useState(false);
 
   const campaignOptions = division ? (DATA.campaigns[division] || []) : [];
-  const employeeOptions = campaign ? (DATA.employees[campaign] || []) : [];
+  const employeeOptions = campaign
+    ? [...(DATA.employees[campaign] || [])].sort((a, b) => a.name.localeCompare(b.name, "ru"))
+    : [];
 
   const handleDivision = (val) => {
     const changed = division && division !== val;
@@ -137,7 +139,7 @@ export default function Form({ onNavigate }) {
           </div>
 
           <div style={{ marginBottom: 16 }}>
-            <SelectField label="Сотрудники" value={employees} options={employeeOptions} onChange={handleEmployees} disabled={!campaign} multi={true} lockedHint={!division ? "Сначала выберите подразделение" : !campaign ? "Сначала выберите кампанию" : null} />
+            <SelectField label="Сотрудники" value={employees} options={employeeOptions} onChange={handleEmployees} disabled={!campaign} multi={true} searchable={true} lockedHint={!division ? "Сначала выберите подразделение" : !campaign ? "Сначала выберите кампанию" : null} />
           </div>
 
           <div style={{ marginBottom: delegateInEmployees ? 16 : 32 }}>
