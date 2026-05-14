@@ -46,30 +46,27 @@ const DATA = {
   },
 };
 
-// ─── Utils ────────────────────────────────────────────────────────────
-
-function Breadcrumbs() {
-  const crumbs = ["Пульс", "Мои документы", "Талант-ревью", "Делегирование", "Создание делегирования"];
-  const crumbActions = [null, null, null, () => onNavigate && onNavigate("list"), null];
-  return (
-    <div style={{ display: "flex", alignItems: "center", gap: 4, flexWrap: "wrap" }}>
-      {crumbs.map((c, i) => (
-        <span key={i} style={{ display: "flex", alignItems: "center", gap: 4 }}>
-          <span onClick={crumbActions && crumbActions[i] ? crumbActions[i] : undefined} style={{ fontSize: 14, lineHeight: "20px", color: i === crumbs.length - 1 ? "#1D2023" : "#8C9BAB", cursor: (i < crumbs.length - 1 || (crumbActions && crumbActions[i])) ? "pointer" : "default" }}>{c}</span>
-          {i < crumbs.length - 1 && (
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style={{ flexShrink: 0 }}>
-              <path d="M5.5 3L10.5 8L5.5 13" stroke="#BCC3D0" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          )}
-        </span>
-      ))}
-    </div>
-  );
-}
-
 // ─── Main Form ────────────────────────────────────────────────────────
 
 export default function Form({ onNavigate }) {
+  function Breadcrumbs() {
+    const crumbs = ["Пульс", "Мои документы", "Талант-ревью", "Делегирование", "Создание делегирования"];
+    const crumbActions = [null, null, null, () => onNavigate && onNavigate("list"), null];
+    return (
+      <div style={{ display: "flex", alignItems: "center", gap: 4, flexWrap: "wrap" }}>
+        {crumbs.map((c, i) => (
+          <span key={i} style={{ display: "flex", alignItems: "center", gap: 4 }}>
+            <span onClick={crumbActions[i] ?? undefined} style={{ fontSize: 14, lineHeight: "20px", color: i === crumbs.length - 1 ? "#1D2023" : "#8C9BAB", cursor: crumbActions[i] ? "pointer" : "default" }}>{c}</span>
+            {i < crumbs.length - 1 && (
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style={{ flexShrink: 0 }}>
+                <path d="M5.5 3L10.5 8L5.5 13" stroke="#BCC3D0" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            )}
+          </span>
+        ))}
+      </div>
+    );
+  }
   const [delegate, setDelegate] = useState("");
   const [division, setDivision] = useState("");
   const [campaign, setCampaign] = useState("");

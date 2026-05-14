@@ -106,7 +106,7 @@ export function SelectField({ label, value, options, onChange, disabled, showInf
           {multi && hasValue && !disabled && (
             <CloseCircleIcon onClick={(e) => { e.stopPropagation(); onChange([]); }} />
           )}
-          <Chevron up={open} />
+          <SelectChevron up={open} />
         </div>
       </div>
 
