@@ -243,7 +243,7 @@ const CAMPAIGN_OPTIONS = [
 function DeclineCampaignModal({ onConfirm, onCancel }) {
   const [comment, setComment] = useState("");
   const [error, setError] = useState(false);
-  const [selected, setSelected] = useState(["camp1", "camp2"]);
+  const [selected, setSelected] = useState([]);
 
   const toggleCamp = (id) => setSelected(prev => prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]);
 
