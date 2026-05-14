@@ -155,7 +155,26 @@ const TO_ME_DONE = [
   },
 ];
 
-function CardDetailModal({ item, onClose, onEdit }) {
+function EarlyEndModal({ onConfirm, onCancel }) {
+  return (
+    <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.4)", zIndex: 500, display: "flex", alignItems: "center", justifyContent: "center" }} onClick={onCancel}>
+      <div style={{ width: 480, background: "#fff", borderRadius: 32, paddingTop: 32, paddingBottom: 20, paddingLeft: 20, paddingRight: 20, display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }} onClick={e => e.stopPropagation()}>
+        <div style={{ alignSelf: "stretch", paddingLeft: 16, paddingRight: 16, display: "flex", flexDirection: "column", gap: 8 }}>
+          <div style={{ alignSelf: "stretch", textAlign: "center", color: "#1D2023", fontSize: 20, fontFamily: "'MTSWide', sans-serif", fontWeight: 500, lineHeight: "24px" }}>Завершить делегирование досрочно?</div>
+          <div style={{ alignSelf: "stretch", textAlign: "center", color: "#626C77", fontSize: 17, fontFamily: "'MTSCompact', sans-serif", fontWeight: 400, lineHeight: "24px" }}>Восстановить его не получится. Все встречи вернутся к вам, а делегат получит уведомление</div>
+        </div>
+        <div style={{ alignSelf: "stretch", paddingTop: 24, display: "flex", flexDirection: "column", gap: 12 }}>
+          <div style={{ display: "flex", gap: 12 }}>
+            <button onClick={onConfirm} style={{ flex: 1, height: 52, padding: 14, background: "#F2F3F7", border: "none", borderRadius: 16, cursor: "pointer", color: "#D8400C", fontSize: 12, fontFamily: "'MTSWide', sans-serif", fontWeight: 700, textTransform: "uppercase", lineHeight: "16px", letterSpacing: 0.6 }}>ЗАВЕРШИТЬ</button>
+            <button onClick={onCancel} style={{ flex: 1, height: 52, padding: 14, background: "#F2F3F7", border: "none", borderRadius: 16, cursor: "pointer", color: "#1D2023", fontSize: 12, fontFamily: "'MTSWide', sans-serif", fontWeight: 700, textTransform: "uppercase", lineHeight: "16px", letterSpacing: 0.6 }}>ОТМЕНА</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function CardDetailModal({ item, onClose, onEdit, onEarlyEnd }) {
   const isActive = item.status === "active" || item.status === "planned";
   return (
     <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.4)", zIndex: 500, display: "flex", alignItems: "center", justifyContent: "center" }} onClick={onClose}>
@@ -238,7 +257,7 @@ function CardDetailModal({ item, onClose, onEdit }) {
           {/* Actions */}
           <div style={{ paddingTop: 24, display: "flex", justifyContent: "flex-end", gap: 10 }}>
             {isActive && (
-              <button style={{ height: 44, padding: "0 20px", background: "#F2F3F7", color: "#D8400C", border: "none", borderRadius: 16, cursor: "pointer", ...BTN_STYLE }}>ЗАВЕРШИТЬ ДОСРОЧНО</button>
+              <button onClick={onEarlyEnd} style={{ height: 44, padding: "0 20px", background: "#F2F3F7", color: "#D8400C", border: "none", borderRadius: 16, cursor: "pointer", ...BTN_STYLE }}>ЗАВЕРШИТЬ ДОСРОЧНО</button>
             )}
             <button onClick={() => { onClose(); onEdit(item); }} style={{ height: 44, padding: "0 20px", background: "#F2F3F7", color: "#1D2023", border: "none", borderRadius: 16, cursor: "pointer", ...BTN_STYLE }}>РЕДАКТИРОВАТЬ</button>
           </div>
@@ -461,12 +480,20 @@ export default function DelegationList({ onNavigate, toast, onToastDone }) {
   const [tab, setTab] = useState("byMe");
   const [filter, setFilter] = useState("active");
   const [selectedCard, setSelectedCard] = useState(null);
+  const [earlyEndItem, setEarlyEndItem] = useState(null);
+  const [earlyEndToast, setEarlyEndToast] = useState(false);
 
   useEffect(() => {
     if (!toast) return;
     const t = setTimeout(() => onToastDone && onToastDone(), 3000);
     return () => clearTimeout(t);
   }, [toast]);
+
+  useEffect(() => {
+    if (!earlyEndToast) return;
+    const t = setTimeout(() => setEarlyEndToast(false), 3000);
+    return () => clearTimeout(t);
+  }, [earlyEndToast]);
 
   const isByMe = tab === "byMe";
   const isActive = filter === "active";
@@ -561,9 +588,23 @@ export default function DelegationList({ onNavigate, toast, onToastDone }) {
         )}
       </div>
 
-      {selectedCard && <CardDetailModal item={selectedCard} onClose={() => setSelectedCard(null)} onEdit={(item) => { setSelectedCard(null); onNavigate("edit", false, item); }} />}
+      {selectedCard && !earlyEndItem && (
+        <CardDetailModal
+          item={selectedCard}
+          onClose={() => setSelectedCard(null)}
+          onEdit={(item) => { setSelectedCard(null); onNavigate("edit", false, item); }}
+          onEarlyEnd={() => { setEarlyEndItem(selectedCard); setSelectedCard(null); }}
+        />
+      )}
 
-      {toast && (
+      {earlyEndItem && (
+        <EarlyEndModal
+          onConfirm={() => { setEarlyEndItem(null); setEarlyEndToast(true); }}
+          onCancel={() => setEarlyEndItem(null)}
+        />
+      )}
+
+      {(toast || earlyEndToast) && (
         <div style={{ position: "fixed", bottom: 36, left: 0, right: 0, display: "flex", justifyContent: "center", zIndex: 600, pointerEvents: "none" }}>
           <div style={{ paddingLeft: 12, paddingRight: 12, paddingTop: 8, paddingBottom: 8, background: "#1D2023", borderRadius: 16, display: "inline-flex", alignItems: "flex-start", gap: 8 }}>
             <div style={{ width: 20, height: 22, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
@@ -573,7 +614,7 @@ export default function DelegationList({ onNavigate, toast, onToastDone }) {
                 <rect x="11" y="7" width="2" height="2" rx="1" fill="#1D2023"/>
               </svg>
             </div>
-            <div style={{ color: "#FAFAFA", fontSize: 17, fontFamily: "'MTSCompact', sans-serif", fontWeight: 400, lineHeight: "24px" }}>Изменения сохранены</div>
+            <div style={{ color: "#FAFAFA", fontSize: 17, fontFamily: "'MTSCompact', sans-serif", fontWeight: 400, lineHeight: "24px" }}>{earlyEndToast ? "Делегирование успешно завершено" : "Изменения сохранены"}</div>
           </div>
         </div>
       )}
