@@ -197,6 +197,7 @@ function EarlyEndModal({ onConfirm, onCancel }) {
 
 function DeclineModal({ onConfirm, onCancel }) {
   const [comment, setComment] = useState("");
+  const [error, setError] = useState(false);
   return (
     <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.4)", zIndex: 500, display: "flex", alignItems: "center", justifyContent: "center" }} onClick={onCancel}>
       <div style={{ width: 616, background: "#fff", borderRadius: 32, boxShadow: "0px 8px 16px rgba(0,0,0,0.08), 0px 4px 24px rgba(0,0,0,0.12)", display: "flex", flexDirection: "column" }} onClick={e => e.stopPropagation()}>
@@ -215,17 +216,17 @@ function DeclineModal({ onConfirm, onCancel }) {
         {/* Body */}
         <div style={{ paddingBottom: 32, paddingLeft: 32, paddingRight: 32, display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 24 }}>
           <div style={{ alignSelf: "stretch", display: "flex", flexDirection: "column", gap: 4 }}>
-            <div style={{ color: "#626C77", fontSize: 14, fontFamily: "'MTSCompact', sans-serif", fontWeight: 400, lineHeight: "20px" }}>Комментарий</div>
+            <div style={{ color: error ? "#D8400C" : "#626C77", fontSize: 14, fontFamily: "'MTSCompact', sans-serif", fontWeight: 400, lineHeight: "20px" }}>Комментарий</div>
             <textarea
               value={comment}
-              onChange={e => setComment(e.target.value.slice(0, 255))}
+              onChange={e => { setComment(e.target.value.slice(0, 255)); if (error) setError(false); }}
               placeholder="Укажите причину отказа от делегирования"
-              style={{ width: "100%", height: 96, padding: "10px 12px", background: "#F2F3F7", border: "1px solid rgba(188,195,208,0.5)", borderRadius: 16, resize: "none", outline: "none", color: comment ? "#1D2023" : "#626C77", fontSize: 17, fontFamily: "'MTSCompact', sans-serif", fontWeight: 400, lineHeight: "24px", boxSizing: "border-box" }}
+              style={{ width: "100%", height: 96, padding: "10px 12px", background: "#F2F3F7", border: `1px solid ${error ? "#D8400C" : "rgba(188,195,208,0.5)"}`, borderRadius: 16, resize: "none", outline: "none", color: comment ? "#1D2023" : "#626C77", fontSize: 17, fontFamily: "'MTSCompact', sans-serif", fontWeight: 400, lineHeight: "24px", boxSizing: "border-box" }}
             />
-            <div style={{ color: "#626C77", fontSize: 12, fontFamily: "'MTSCompact', sans-serif", fontWeight: 400, lineHeight: "16px" }}>До 255 символов. Поле обязательно для заполнения</div>
+            <div style={{ color: error ? "#D8400C" : "#626C77", fontSize: 12, fontFamily: "'MTSCompact', sans-serif", fontWeight: 400, lineHeight: "16px" }}>{error ? "Поле обязательно для заполнения" : "До 255 символов. Поле обязательно для заполнения"}</div>
           </div>
           <div style={{ display: "flex", gap: 10 }}>
-            <button onClick={onConfirm} style={{ width: 271, height: 44, padding: 10, background: "#F2F3F7", border: "none", borderRadius: 16, cursor: "pointer", color: "#D8400C", fontSize: 12, fontFamily: "'MTSWide', sans-serif", fontWeight: 700, textTransform: "uppercase", lineHeight: "16px", letterSpacing: 0.6 }}>ОТКАЗАТЬСЯ</button>
+            <button onClick={() => { if (!comment.trim()) { setError(true); return; } onConfirm(); }} style={{ width: 271, height: 44, padding: 10, background: "#F2F3F7", border: "none", borderRadius: 16, cursor: "pointer", color: "#D8400C", fontSize: 12, fontFamily: "'MTSWide', sans-serif", fontWeight: 700, textTransform: "uppercase", lineHeight: "16px", letterSpacing: 0.6 }}>ОТКАЗАТЬСЯ</button>
             <button onClick={onCancel} style={{ width: 271, height: 44, padding: 10, background: "#F2F3F7", border: "none", borderRadius: 16, cursor: "pointer", color: "#1D2023", fontSize: 12, fontFamily: "'MTSWide', sans-serif", fontWeight: 700, textTransform: "uppercase", lineHeight: "16px", letterSpacing: 0.6 }}>ОТМЕНА</button>
           </div>
         </div>
