@@ -304,7 +304,7 @@ function CardDetailModal({ item, onClose, onEdit, onEarlyEnd }) {
         </div>
 
         {/* Scrollable body */}
-        <div style={{ overflowY: "auto", paddingLeft: 32, paddingRight: 32, paddingBottom: 32 }}>
+        <div className="modal-scroll" style={{ overflowY: "auto", paddingLeft: 32, paddingRight: 32, paddingBottom: 32 }}>
 
           {/* Status */}
           <div style={{ paddingBottom: 8 }}>
@@ -647,7 +647,7 @@ export default function DelegationList({ onNavigate, toast, onToastDone }) {
 
   return (
     <div style={{ minHeight: "100vh", background: "#fff", fontFamily: "'MTSCompact', sans-serif" }}>
-      <style>{`* { box-sizing: border-box; margin: 0; padding: 0; }${FONT_CSS}`}</style>
+      <style>{`* { box-sizing: border-box; margin: 0; padding: 0; }${FONT_CSS}.modal-scroll::-webkit-scrollbar { width: 4px; } .modal-scroll::-webkit-scrollbar-track { background: transparent; } .modal-scroll::-webkit-scrollbar-thumb { background: #BCC3D0; border-radius: 2px; } .modal-scroll { scrollbar-width: thin; scrollbar-color: #BCC3D0 transparent; }`}</style>
       <Header />
       <div style={{ padding: "0 88px 88px" }}>
 
