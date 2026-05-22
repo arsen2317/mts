@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { FONT_CSS, Header, BTN_STYLE, SearchIcon, ChevronUp, ChevronDown, BreadChevron, StatusBadge, Tag, Chip, PersonAvatar, Tabs, Checkbox } from "./ds";
+import { FONT_CSS, Header, BTN_STYLE, SearchIcon, ChevronUp, ChevronDown, StatusBadge, Tag, Chip, PersonAvatar, Tabs, Checkbox } from "./ds";
 
 const BASE = import.meta.env.BASE_URL;
 const AVATARS = {
@@ -643,23 +643,13 @@ export default function DelegationList({ onNavigate, toast, onToastDone }) {
 
   const searchPlaceholder = isByMe ? "Поиск по делегату" : "Поиск по сотруднику";
 
-  const crumbs = ["Пульс", "Мои документы", "Талант-ревью", "Делегирование"];
+
 
   return (
     <div style={{ minHeight: "100vh", background: "#fff", fontFamily: "'MTSCompact', sans-serif" }}>
       <style>{`* { box-sizing: border-box; margin: 0; padding: 0; }${FONT_CSS}.modal-scroll::-webkit-scrollbar { width: 4px; } .modal-scroll::-webkit-scrollbar-track { background: transparent; } .modal-scroll::-webkit-scrollbar-thumb { background: #BCC3D0; border-radius: 2px; } .modal-scroll { scrollbar-width: thin; scrollbar-color: #BCC3D0 transparent; }`}</style>
       <Header />
       <div style={{ maxWidth: 1440, margin: "0 auto", padding: "0 88px 88px" }}>
-
-        {/* Breadcrumbs */}
-        <div style={{ paddingTop: 24, display: "flex", alignItems: "center", gap: 4, flexWrap: "wrap" }}>
-          {crumbs.map((c, i) => (
-            <span key={i} style={{ display: "flex", alignItems: "center", gap: 4 }}>
-              <span style={{ fontSize: 14, lineHeight: "20px", color: i === crumbs.length - 1 ? "#1D2023" : "#626C77", cursor: i < crumbs.length - 1 ? "pointer" : "default" }}>{c}</span>
-              {i < crumbs.length - 1 && <BreadChevron />}
-            </span>
-          ))}
-        </div>
 
         {/* Title */}
         <h1 style={{ fontSize: 32, fontWeight: 500, lineHeight: "36px", fontFamily: "'MTSWide', sans-serif", color: "#1D2023", margin: "36px 0 0" }}>
