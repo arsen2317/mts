@@ -21,13 +21,15 @@ const AVATAR_B64 = "PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAz
 
 export function Header() {
   return (
-    <div style={{ height: 64, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 88px", background: "#fff" }}>
-      <LogoSVG />
-      <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-        <img src={`data:image/svg+xml;base64,${AVATAR_B64}`} style={{ width: 32, height: 32, borderRadius: 12, flexShrink: 0 }} alt="avatar" />
-        <div>
-          <div style={{ fontSize: 17, color: "#1D2023", lineHeight: "24px" }}>Иванов Иван Иванович</div>
-          <div style={{ fontSize: 14, color: "#626C77", lineHeight: "20px" }}>IIvanov@mtsbank.ru</div>
+    <div style={{ background: "#fff" }}>
+      <div style={{ maxWidth: 1440, margin: "0 auto", height: 64, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 88px" }}>
+        <LogoSVG />
+        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+          <img src={`data:image/svg+xml;base64,${AVATAR_B64}`} style={{ width: 32, height: 32, borderRadius: 12, flexShrink: 0 }} alt="avatar" />
+          <div>
+            <div style={{ fontSize: 17, color: "#1D2023", lineHeight: "24px" }}>Иванов Иван Иванович</div>
+            <div style={{ fontSize: 14, color: "#626C77", lineHeight: "20px" }}>IIvanov@mtsbank.ru</div>
+          </div>
         </div>
       </div>
     </div>
