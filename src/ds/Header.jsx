@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FONT_CSS } from "./fonts";
+import { useIsDocked } from "./useIsDocked";
 
 const LogoSVG = ({ width = 208, height = 44 }) => (
   <svg width={width} height={height} viewBox="0 0 208 44" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -120,35 +121,39 @@ const FREQUENT = [
 const SECTION_LABEL = { color: '#626C77', fontSize: 14, fontFamily: "'MTSCompact', sans-serif", fontWeight: 400, lineHeight: '18px' };
 const NAV_ITEM_TEXT = { color: '#1D2023', fontSize: 17, fontFamily: "'MTSCompact', sans-serif", fontWeight: 400, lineHeight: '20px' };
 
-function Sidebar({ open, onClose }) {
+function Sidebar({ open, isDocked, onClose }) {
   return (
     <>
-      <div
-        onClick={onClose}
-        style={{
-          position: 'fixed', inset: 0,
-          background: 'rgba(0,0,0,0.4)',
-          zIndex: 200,
-          opacity: open ? 1 : 0,
-          pointerEvents: open ? 'auto' : 'none',
-          transition: 'opacity 0.25s ease',
-        }}
-      />
+      {!isDocked && (
+        <div
+          onClick={onClose}
+          style={{
+            position: 'fixed', inset: 0,
+            background: 'rgba(0,0,0,0.4)',
+            zIndex: 200,
+            opacity: open ? 1 : 0,
+            pointerEvents: open ? 'auto' : 'none',
+            transition: 'opacity 0.25s ease',
+          }}
+        />
+      )}
       <div style={{
         position: 'fixed', top: 0, left: 0,
         width: 280, height: '100vh',
         background: '#F8F8F8',
-        zIndex: 201,
+        zIndex: isDocked ? 50 : 201,
         display: 'flex', flexDirection: 'column',
         transform: open ? 'translateX(0)' : 'translateX(-100%)',
-        transition: 'transform 0.25s ease',
-        boxShadow: open ? '4px 0 24px rgba(0,0,0,0.12)' : 'none',
+        transition: isDocked ? 'none' : 'transform 0.25s ease',
+        boxShadow: (!isDocked && open) ? '4px 0 24px rgba(0,0,0,0.12)' : 'none',
       }}>
-        {/* Sidebar header: burger + logo */}
+        {/* Sidebar header: burger (drawer only) + logo */}
         <div style={{ paddingTop: 24, paddingBottom: 40, paddingLeft: 24, paddingRight: 24, display: 'flex', alignItems: 'center', flexShrink: 0 }}>
-          <div onClick={onClose} style={{ cursor: 'pointer', height: 24, display: 'flex', alignItems: 'center', paddingRight: 16, flexShrink: 0 }}>
-            <BurgerLines color="#1D2023" />
-          </div>
+          {!isDocked && (
+            <div onClick={onClose} style={{ cursor: 'pointer', height: 24, display: 'flex', alignItems: 'center', paddingRight: 16, flexShrink: 0 }}>
+              <BurgerLines color="#1D2023" />
+            </div>
+          )}
           <LogoSVG width={142} height={30} />
         </div>
 
@@ -209,23 +214,39 @@ function Sidebar({ open, onClose }) {
 }
 
 export function Header() {
+  const isDocked = useIsDocked();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  useEffect(() => {
+    if (!isDocked) setSidebarOpen(false);
+  }, [isDocked]);
+
+  const sidebarVisible = isDocked || sidebarOpen;
 
   return (
     <>
-      <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+      <Sidebar open={sidebarVisible} isDocked={isDocked} onClose={() => setSidebarOpen(false)} />
 
       <div style={{ position: 'sticky', top: 0, zIndex: 100, width: '100%' }}>
         <div style={{ background: 'rgba(255,255,255,0.70)', backdropFilter: 'blur(25px)', WebkitBackdropFilter: 'blur(25px)' }}>
-          <div style={{ maxWidth: 1440, margin: '0 auto', height: 72, paddingLeft: 88, paddingRight: 88, display: 'inline-flex', alignItems: 'center', width: '100%', boxSizing: 'border-box' }}>
+          <div style={{
+            ...(isDocked
+              ? { marginLeft: 280, width: 'calc(100% - 280px)' }
+              : { maxWidth: 1440, margin: '0 auto', width: '100%' }
+            ),
+            height: 72, paddingLeft: 88, paddingRight: 88,
+            display: 'inline-flex', alignItems: 'center', boxSizing: 'border-box',
+          }}>
 
-            {/* Burger */}
-            <div
-              onClick={() => setSidebarOpen(true)}
-              style={{ height: 24, paddingRight: 16, display: 'flex', alignItems: 'center', cursor: 'pointer', flexShrink: 0 }}
-            >
-              <BurgerLines />
-            </div>
+            {/* Burger — only in drawer mode */}
+            {!isDocked && (
+              <div
+                onClick={() => setSidebarOpen(true)}
+                style={{ height: 24, paddingRight: 16, display: 'flex', alignItems: 'center', cursor: 'pointer', flexShrink: 0 }}
+              >
+                <BurgerLines />
+              </div>
+            )}
 
             {/* Breadcrumbs */}
             <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start', gap: 4 }}>
