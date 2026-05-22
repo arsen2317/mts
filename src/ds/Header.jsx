@@ -145,7 +145,7 @@ function Sidebar({ open, onClose }) {
         boxShadow: open ? '4px 0 24px rgba(0,0,0,0.12)' : 'none',
       }}>
         {/* Sidebar header: burger + logo */}
-        <div style={{ paddingTop: 24, paddingBottom: 40, paddingLeft: 24, paddingRight: 24, display: 'flex', alignItems: 'center', gap: 16, flexShrink: 0 }}>
+        <div style={{ paddingTop: 24, paddingBottom: 40, paddingLeft: 24, paddingRight: 24, display: 'flex', alignItems: 'center', flexShrink: 0 }}>
           <div onClick={onClose} style={{ cursor: 'pointer', height: 24, display: 'flex', alignItems: 'center', paddingRight: 16, flexShrink: 0 }}>
             <BurgerLines color="#1D2023" />
           </div>
