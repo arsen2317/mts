@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FONT_CSS } from "./fonts";
+import { useIsDocked } from "./useIsDocked";
 
 const LogoSVG = ({ width = 208, height = 44 }) => (
   <svg width={width} height={height} viewBox="0 0 208 44" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -35,120 +36,81 @@ const ChevronRightIcon = () => (
 );
 
 const BellIcon = () => (
-  <div style={{ width: 24, height: 24, position: 'relative', flexShrink: 0 }}>
-    <div style={{ width: 14, height: 18, left: 5, top: 3, position: 'absolute', background: '#292929',
-      clipPath: 'polygon(2px 14px, 12px 14px, 14px 10px, 14px 6px, 10px 2px, 4px 2px, 0 6px, 0 10px)',
-    }} />
-    <div style={{ width: 6, height: 6, left: 16, top: 2, position: 'absolute', background: '#3385FF', borderRadius: '50%' }} />
-  </div>
+  <svg xmlns="http://www.w3.org/2000/svg" width="17" height="19" viewBox="0 0 17 19" fill="none" style={{ flexShrink: 0 }}>
+    <path fillRule="evenodd" clipRule="evenodd" d="M10.949 8.606C11.383 10.127 11.651 10.939 12.757 11.375C13.573 11.699 14.09 12.439 13.987 13.18C13.956 13.443 13.76 14.315 12.447 14.538L2.062 16.333C1.897 16.363 1.742 16.373 1.597 16.373C0.636999 16.373 0.253999 15.765 0.149999 15.563C-0.180001 14.903 0.0469992 14.031 0.707999 13.453C1.587 12.673 1.566 11.821 1.442 10.249C1.39115 9.66567 1.3638 9.08053 1.36 8.495C1.38 6.122 2.858 4.621 4.439 4.053L4.046 1.893C4.02885 1.79366 4.03158 1.69189 4.05403 1.59361C4.07649 1.49533 4.11823 1.40248 4.17682 1.32045C4.23542 1.23841 4.30971 1.16882 4.3954 1.1157C4.48109 1.06258 4.57646 1.02699 4.676 1.011C4.87738 0.97418 5.08515 1.01864 5.25382 1.13465C5.4225 1.25066 5.53834 1.42877 5.576 1.63L5.968 3.79C7.652 3.79 9.564 4.702 10.412 6.923C10.639 7.521 10.804 8.099 10.949 8.606ZM1.814 14.832L12.2 13.038C12.314 13.018 12.386 12.998 12.417 12.987C12.3526 12.898 12.2626 12.8307 12.159 12.794C10.304 12.056 9.888 10.592 9.445 9.036L9.441 9.022L9.42 8.947C9.282 8.464 9.142 7.971 8.945 7.46C8.284 5.716 6.672 5.148 5.452 5.351C4.243 5.554 2.921 6.639 2.911 8.505C2.911 9.083 2.951 9.62 2.993 10.137C3.127 11.75 3.241 13.271 1.753 14.589C1.67093 14.6589 1.60999 14.7504 1.577 14.853C1.629 14.853 1.712 14.853 1.815 14.833L1.814 14.832ZM8.861 16.617C8.831 17.753 7.962 18.747 6.753 18.96C5.534 19.173 4.377 18.524 3.953 17.469L8.862 16.617H8.861Z" fill="#292929"/>
+    <path d="M14 6C15.6569 6 17 4.65685 17 3C17 1.34315 15.6569 0 14 0C12.3431 0 11 1.34315 11 3C11 4.65685 12.3431 6 14 6Z" fill="#3385FF"/>
+  </svg>
 );
 
-const NavIcon = () => (
-  <div style={{ width: 24, height: 24, background: '#E8EDF2', borderRadius: 6, flexShrink: 0 }} />
-);
+const BASE = import.meta.env.BASE_URL;
+const I = (name) => `${BASE}icons/${name}.png`;
 
-const WorkRestIcon = () => (
-  <div style={{ width: 24, height: 24, display: 'flex', justifyContent: 'center', alignItems: 'center', flexShrink: 0 }}>
-    <div style={{ width: 20, height: 18, position: 'relative', overflow: 'hidden' }}>
-      <div style={{ width: 7.55, height: 8.77, left: 2.28, top: 2.42, position: 'absolute', background: '#1991EF' }} />
-      <div style={{ width: 9.77, height: 5.07, left: 0.05, top: 12.09, position: 'absolute', background: '#1991EF' }} />
-      <div style={{ width: 6.67, height: 2.09, left: 3.14, top: 12.69, position: 'absolute', background: '#006FC2' }} />
-      <div style={{ width: 9.76, height: 2.27, left: 0.05, top: 14.90, position: 'absolute', background: '#006FC2' }} />
-      <div style={{ width: 5.15, height: 9.63, left: 10.66, top: 4.16, position: 'absolute', background: '#FFA800' }} />
-      <div style={{ width: 3, height: 2.99, left: 14.73, top: 2.28, position: 'absolute', background: '#FFA800' }} />
-      <div style={{ width: 3.26, height: 1.13, left: 16.72, top: 8.37, position: 'absolute', background: '#FFA800' }} />
-      <div style={{ width: 2.99, height: 2.97, left: 14.73, top: 12.66, position: 'absolute', background: '#FFA800' }} />
-      <div style={{ width: 1.12, height: 3.28, left: 10.66, top: 14.66, position: 'absolute', background: '#FFA800' }} />
-    </div>
-  </div>
-);
-
-const TalentReviewIcon = () => (
-  <div style={{ width: 24, height: 24, display: 'flex', justifyContent: 'center', alignItems: 'center', flexShrink: 0 }}>
-    <div style={{ width: 20, height: 20, position: 'relative' }}>
-      <div style={{ width: 17.28, height: 16.55, left: 1.36, top: 2.20, position: 'absolute', background: '#E5DFFF' }} />
-      <div style={{ width: 6.67, height: 6.67, left: 6.66, top: 0, position: 'absolute', background: '#8F8FFF', borderRadius: 9999 }} />
-      <div style={{ width: 6.67, height: 6.67, left: 0, top: 13.34, position: 'absolute', background: '#8F8FFF', borderRadius: 9999 }} />
-      <div style={{ width: 6.67, height: 6.67, left: 13.34, top: 13.34, position: 'absolute', background: '#8F8FFF', borderRadius: 9999 }} />
-    </div>
-  </div>
-);
-
-const RitmIcon = () => (
-  <div style={{ width: 24, height: 24, display: 'flex', justifyContent: 'center', alignItems: 'center', flexShrink: 0 }}>
-    <div style={{ width: 18, height: 18, position: 'relative' }}>
-      <div style={{ width: 4, height: 4, left: 7, top: 0, position: 'absolute', background: '#F00085', borderRadius: 9999 }} />
-      <div style={{ width: 4, height: 4, left: 7, top: 14, position: 'absolute', background: '#F00085', borderRadius: 9999 }} />
-      <div style={{ width: 4, height: 4, left: 12, top: 2, position: 'absolute', background: '#F00085', borderRadius: 9999 }} />
-      <div style={{ width: 4, height: 4, left: 12, top: 12, position: 'absolute', background: '#F00085', borderRadius: 9999 }} />
-      <div style={{ width: 4, height: 4, left: 2, top: 2, position: 'absolute', background: '#F00085', borderRadius: 9999 }} />
-      <div style={{ width: 4, height: 4, left: 2, top: 12, position: 'absolute', background: '#F00085', borderRadius: 9999 }} />
-      <div style={{ width: 4, height: 4, left: 14, top: 7, position: 'absolute', background: '#F00085', borderRadius: 9999 }} />
-      <div style={{ width: 4, height: 4, left: 0, top: 7, position: 'absolute', background: '#F00085', borderRadius: 9999 }} />
-      <div style={{ width: 8, height: 8, left: 5, top: 5, position: 'absolute', background: '#F00085', borderRadius: 9999 }} />
-      <div style={{ width: 4, height: 4, left: 7, top: 7, position: 'absolute', background: '#FFCB54', borderRadius: 9999 }} />
-    </div>
-  </div>
+const NavImg = ({ name }) => (
+  <img src={I(name)} alt="" width={24} height={24} style={{ flexShrink: 0, objectFit: 'contain' }} />
 );
 
 const FAVORITES = [
-  { label: 'работа и отдых', icon: <WorkRestIcon /> },
-  { label: 'делегирование', icon: <NavIcon /> },
+  { label: 'работа и отдых',  icon: <NavImg name="rabota-i-otdyh" /> },
+  { label: 'делегирование',   icon: <NavImg name="delegirovanie" /> },
 ];
 
 const FREQUENT = [
-  { label: 'пункт управления', icon: <NavIcon /> },
-  { label: 'развитие', icon: <NavIcon /> },
-  { label: 'полка', icon: <NavIcon /> },
-  { label: 'сервисы', icon: <NavIcon /> },
-  { label: 'корпоративная жизнь', icon: <NavIcon /> },
-  { label: 'обращения и справки', icon: <NavIcon /> },
-  { label: 'талант-ревью', icon: <TalentReviewIcon /> },
-  { label: 'моя карьера', icon: <NavIcon /> },
-  { label: 'мой доход', icon: <NavIcon /> },
-  { label: 'цели', icon: <NavIcon /> },
-  { label: 'задачи', icon: <NavIcon /> },
-  { label: 'обратная связь', icon: <NavIcon /> },
-  { label: 'так принято в МТС\nФинтех', icon: <NavIcon /> },
-  { label: 'кибербезопасность', icon: <NavIcon /> },
-  { label: 'ритм', icon: <RitmIcon /> },
-  { label: 'оценка', icon: <NavIcon /> },
-  { label: 'структура', icon: <NavIcon /> },
-  { label: 'тесты, опросы, 360', icon: <NavIcon /> },
+  { label: 'пункт управления',         icon: <NavImg name="punkt-upravleniya" /> },
+  { label: 'развитие',                 icon: <NavImg name="razvitie" /> },
+  { label: 'полка',                    icon: <NavImg name="polka" /> },
+  { label: 'сервисы',                  icon: <NavImg name="servisy" /> },
+  { label: 'корпоративная жизнь',      icon: <NavImg name="korp-zhizn" /> },
+  { label: 'обращения и справки',      icon: <NavImg name="obrashcheniya" /> },
+  { label: 'талант-ревью',             icon: <NavImg name="talant-revyu" /> },
+  { label: 'моя карьера',              icon: <NavImg name="moya-kariera" /> },
+  { label: 'мой доход',                icon: <NavImg name="moy-dohod" /> },
+  { label: 'цели',                     icon: <NavImg name="tseli" /> },
+  { label: 'задачи',                   icon: <NavImg name="zadachi" /> },
+  { label: 'обратная связь',           icon: <NavImg name="obratnaya-svyaz" /> },
+  { label: 'так принято в МТС\nФинтех', icon: <NavImg name="tak-prinyato" /> },
+  { label: 'кибербезопасность',        icon: <NavImg name="kiberbezopasnost" /> },
+  { label: 'ритм',                     icon: <NavImg name="ritm" /> },
+  { label: 'оценка',                   icon: <NavImg name="otsenka" /> },
+  { label: 'структура',                icon: <NavImg name="struktura" /> },
+  { label: 'тесты, опросы, 360',       icon: <NavImg name="testy" /> },
 ];
 
 const SECTION_LABEL = { color: '#626C77', fontSize: 14, fontFamily: "'MTSCompact', sans-serif", fontWeight: 400, lineHeight: '18px' };
 const NAV_ITEM_TEXT = { color: '#1D2023', fontSize: 17, fontFamily: "'MTSCompact', sans-serif", fontWeight: 400, lineHeight: '20px' };
 
-function Sidebar({ open, onClose }) {
+function Sidebar({ open, isDocked, onClose }) {
   return (
     <>
-      <div
-        onClick={onClose}
-        style={{
-          position: 'fixed', inset: 0,
-          background: 'rgba(0,0,0,0.4)',
-          zIndex: 200,
-          opacity: open ? 1 : 0,
-          pointerEvents: open ? 'auto' : 'none',
-          transition: 'opacity 0.25s ease',
-        }}
-      />
+      {!isDocked && (
+        <div
+          onClick={onClose}
+          style={{
+            position: 'fixed', inset: 0,
+            background: 'rgba(0,0,0,0.4)',
+            zIndex: 200,
+            opacity: open ? 1 : 0,
+            pointerEvents: open ? 'auto' : 'none',
+            transition: 'opacity 0.25s ease',
+          }}
+        />
+      )}
       <div style={{
         position: 'fixed', top: 0, left: 0,
         width: 280, height: '100vh',
         background: '#F8F8F8',
-        zIndex: 201,
+        zIndex: isDocked ? 50 : 201,
         display: 'flex', flexDirection: 'column',
         transform: open ? 'translateX(0)' : 'translateX(-100%)',
-        transition: 'transform 0.25s ease',
-        boxShadow: open ? '4px 0 24px rgba(0,0,0,0.12)' : 'none',
+        transition: isDocked ? 'none' : 'transform 0.25s ease',
+        boxShadow: (!isDocked && open) ? '4px 0 24px rgba(0,0,0,0.12)' : 'none',
       }}>
-        {/* Sidebar header: burger + logo */}
-        <div style={{ paddingTop: 24, paddingBottom: 40, paddingLeft: 24, paddingRight: 24, display: 'flex', alignItems: 'center', gap: 16, flexShrink: 0 }}>
-          <div onClick={onClose} style={{ cursor: 'pointer', height: 24, display: 'flex', alignItems: 'center', paddingRight: 16, flexShrink: 0 }}>
-            <BurgerLines color="#1D2023" />
-          </div>
+        {/* Sidebar header: burger (drawer only) + logo */}
+        <div style={{ paddingTop: 24, paddingBottom: 40, paddingLeft: 24, paddingRight: 24, display: 'flex', alignItems: 'center', flexShrink: 0 }}>
+          {!isDocked && (
+            <div onClick={onClose} style={{ cursor: 'pointer', height: 24, display: 'flex', alignItems: 'center', paddingRight: 16, flexShrink: 0 }}>
+              <BurgerLines color="#1D2023" />
+            </div>
+          )}
           <LogoSVG width={142} height={30} />
         </div>
 
@@ -209,23 +171,39 @@ function Sidebar({ open, onClose }) {
 }
 
 export function Header() {
+  const isDocked = useIsDocked();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  useEffect(() => {
+    if (!isDocked) setSidebarOpen(false);
+  }, [isDocked]);
+
+  const sidebarVisible = isDocked || sidebarOpen;
 
   return (
     <>
-      <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+      <Sidebar open={sidebarVisible} isDocked={isDocked} onClose={() => setSidebarOpen(false)} />
 
       <div style={{ position: 'sticky', top: 0, zIndex: 100, width: '100%' }}>
         <div style={{ background: 'rgba(255,255,255,0.70)', backdropFilter: 'blur(25px)', WebkitBackdropFilter: 'blur(25px)' }}>
-          <div style={{ maxWidth: 1440, margin: '0 auto', height: 56, paddingLeft: 88, paddingRight: 88, display: 'inline-flex', alignItems: 'center', width: '100%', boxSizing: 'border-box' }}>
+          <div style={{
+            ...(isDocked
+              ? { marginLeft: 280, width: 'calc(100% - 280px)' }
+              : { maxWidth: 1440, margin: '0 auto', width: '100%' }
+            ),
+            height: 72, paddingLeft: 88, paddingRight: 88,
+            display: 'inline-flex', alignItems: 'center', boxSizing: 'border-box',
+          }}>
 
-            {/* Burger */}
-            <div
-              onClick={() => setSidebarOpen(true)}
-              style={{ height: 24, paddingRight: 16, display: 'flex', alignItems: 'center', cursor: 'pointer', flexShrink: 0 }}
-            >
-              <BurgerLines />
-            </div>
+            {/* Burger — only in drawer mode */}
+            {!isDocked && (
+              <div
+                onClick={() => setSidebarOpen(true)}
+                style={{ height: 24, paddingRight: 16, display: 'flex', alignItems: 'center', cursor: 'pointer', flexShrink: 0 }}
+              >
+                <BurgerLines />
+              </div>
+            )}
 
             {/* Breadcrumbs */}
             <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start', gap: 4 }}>

@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { FONT_CSS, Header, BTN_STYLE, SearchIcon, ChevronUp, ChevronDown, StatusBadge, Tag, Chip, PersonAvatar, Tabs, Checkbox } from "./ds";
+import { useIsDocked } from "./ds/useIsDocked";
 
 const BASE = import.meta.env.BASE_URL;
 const AVATARS = {
@@ -616,6 +617,7 @@ function ToMeCard({ item, onDecline, readOnly }) {
 // ── Header ────────────────────────────────────────────────────────────
 
 export default function DelegationList({ onNavigate, toast, onToastDone }) {
+  const isDocked = useIsDocked();
   const [tab, setTab] = useState("byMe");
   const [filter, setFilter] = useState("active");
   const [selectedCard, setSelectedCard] = useState(null);
@@ -649,7 +651,10 @@ export default function DelegationList({ onNavigate, toast, onToastDone }) {
     <div style={{ minHeight: "100vh", background: "#fff", fontFamily: "'MTSCompact', sans-serif" }}>
       <style>{`* { box-sizing: border-box; margin: 0; padding: 0; }${FONT_CSS}.modal-scroll::-webkit-scrollbar { width: 4px; } .modal-scroll::-webkit-scrollbar-track { background: transparent; } .modal-scroll::-webkit-scrollbar-thumb { background: #BCC3D0; border-radius: 2px; } .modal-scroll { scrollbar-width: thin; scrollbar-color: #BCC3D0 transparent; }`}</style>
       <Header />
-      <div style={{ maxWidth: 1440, margin: "0 auto", padding: "0 88px 88px" }}>
+      <div style={isDocked
+        ? { marginLeft: 280, padding: "0 88px 88px" }
+        : { maxWidth: 1440, margin: "0 auto", padding: "0 88px 88px" }
+      }>
 
         {/* Title */}
         <h1 style={{ fontSize: 32, fontWeight: 500, lineHeight: "36px", fontFamily: "'MTSWide', sans-serif", color: "#1D2023", margin: "36px 0 0" }}>
