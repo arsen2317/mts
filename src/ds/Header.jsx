@@ -104,13 +104,11 @@ function Sidebar({ open, isDocked, onClose }) {
         transition: isDocked ? 'none' : 'transform 0.25s ease',
         boxShadow: (!isDocked && open) ? '4px 0 24px rgba(0,0,0,0.12)' : 'none',
       }}>
-        {/* Sidebar header: burger (drawer only) + logo */}
+        {/* Sidebar header: burger + logo */}
         <div style={{ paddingTop: 24, paddingBottom: 40, paddingLeft: 24, paddingRight: 24, display: 'flex', alignItems: 'center', flexShrink: 0 }}>
-          {!isDocked && (
-            <div onClick={onClose} style={{ cursor: 'pointer', height: 24, display: 'flex', alignItems: 'center', paddingRight: 16, flexShrink: 0 }}>
-              <BurgerLines color="#1D2023" />
-            </div>
-          )}
+          <div onClick={onClose} style={{ cursor: 'pointer', height: 24, display: 'flex', alignItems: 'center', paddingRight: 16, flexShrink: 0 }}>
+            <BurgerLines color="#1D2023" />
+          </div>
           <LogoSVG width={142} height={30} />
         </div>
 
