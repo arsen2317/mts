@@ -217,7 +217,7 @@ export function Header() {
 
       <div style={{ position: 'sticky', top: 0, zIndex: 100, width: '100%' }}>
         <div style={{ background: 'rgba(255,255,255,0.70)', backdropFilter: 'blur(25px)', WebkitBackdropFilter: 'blur(25px)' }}>
-          <div style={{ maxWidth: 1440, margin: '0 auto', height: 56, paddingLeft: 88, paddingRight: 88, display: 'inline-flex', alignItems: 'center', width: '100%', boxSizing: 'border-box' }}>
+          <div style={{ maxWidth: 1440, margin: '0 auto', height: 72, paddingLeft: 88, paddingRight: 88, display: 'inline-flex', alignItems: 'center', width: '100%', boxSizing: 'border-box' }}>
 
             {/* Burger */}
             <div
