@@ -1,25 +1,25 @@
 import { useState, useRef, useEffect } from "react";
-import { FONT_CSS, Header, BTN_STYLE, SearchIcon, ChevronUp, ChevronDown, BreadChevron, StatusBadge, Tag, Chip, PersonAvatar, Tabs, Checkbox } from "./ds";
+import { FONT_CSS, Header, BTN_STYLE, SearchIcon, ChevronUp, ChevronDown, StatusBadge, Tag, Chip, PersonAvatar, Tabs, Checkbox } from "./ds";
 
 const BASE = import.meta.env.BASE_URL;
 const AVATARS = {
-  "Палевская София":                     BASE + "avatars/sofia.png",
-  "Монахов Михаил":                      BASE + "avatars/mikhail.png",
-  "Константинопольский Константин":      BASE + "avatars/konstantin.png",
-  "Константинопольский Константин Сергеевич": BASE + "avatars/konstantin.png",
-  "Ольга Ильина":                        BASE + "avatars/olga.png",
-  "Иванова Ирина":                       BASE + "avatars/irina.png",
-  "Заковыркина Марина":                  BASE + "avatars/marina.png",
-  "Заковыркина Марина Викторовна":       BASE + "avatars/marina.png",
-  "Иванова Мария Александровна":         BASE + "avatars/maria.png",
-  "Смирнова Ольга Викторовна":           BASE + "avatars/smirnova.png",
-  "Новикова Екатерина Дмитриевна":       BASE + "avatars/novikova.png",
-  "Гаврилов Андрей Петрович":            BASE + "avatars/gavrilov.png",
-  "Жуков Алексей Вадимович":             BASE + "avatars/zhukov.png",
-  "Ростиславский Владимир":              BASE + "avatars/rostislavsky.png",
-  "Манохин Александр":                   BASE + "avatars/manokhin.png",
-  "Артёмов Александр":                   BASE + "avatars/artemov.png",
-  "Глаголев Егор":                       BASE + "avatars/egor.png",
+  "Палевская София":                     BASE + "avatars/sofia.webp",
+  "Монахов Михаил":                      BASE + "avatars/mikhail.webp",
+  "Константинопольский Константин":      BASE + "avatars/konstantin.webp",
+  "Константинопольский Константин Сергеевич": BASE + "avatars/konstantin.webp",
+  "Ольга Ильина":                        BASE + "avatars/olga.webp",
+  "Иванова Ирина":                       BASE + "avatars/irina.webp",
+  "Заковыркина Марина":                  BASE + "avatars/marina.webp",
+  "Заковыркина Марина Викторовна":       BASE + "avatars/marina.webp",
+  "Иванова Мария Александровна":         BASE + "avatars/maria.webp",
+  "Смирнова Ольга Викторовна":           BASE + "avatars/smirnova.webp",
+  "Новикова Екатерина Дмитриевна":       BASE + "avatars/novikova.webp",
+  "Гаврилов Андрей Петрович":            BASE + "avatars/gavrilov.webp",
+  "Жуков Алексей Вадимович":             BASE + "avatars/zhukov.webp",
+  "Ростиславский Владимир":              BASE + "avatars/rostislavsky.webp",
+  "Манохин Александр":                   BASE + "avatars/manokhin.webp",
+  "Артёмов Александр":                   BASE + "avatars/artemov.webp",
+  "Глаголев Егор":                       BASE + "avatars/egor.webp",
 };
 
 const BY_ME_ACTIVE = [
@@ -643,23 +643,13 @@ export default function DelegationList({ onNavigate, toast, onToastDone }) {
 
   const searchPlaceholder = isByMe ? "Поиск по делегату" : "Поиск по сотруднику";
 
-  const crumbs = ["Пульс", "Мои документы", "Талант-ревью", "Делегирование"];
+
 
   return (
     <div style={{ minHeight: "100vh", background: "#fff", fontFamily: "'MTSCompact', sans-serif" }}>
       <style>{`* { box-sizing: border-box; margin: 0; padding: 0; }${FONT_CSS}.modal-scroll::-webkit-scrollbar { width: 4px; } .modal-scroll::-webkit-scrollbar-track { background: transparent; } .modal-scroll::-webkit-scrollbar-thumb { background: #BCC3D0; border-radius: 2px; } .modal-scroll { scrollbar-width: thin; scrollbar-color: #BCC3D0 transparent; }`}</style>
       <Header />
-      <div style={{ padding: "0 88px 88px" }}>
-
-        {/* Breadcrumbs */}
-        <div style={{ paddingTop: 24, display: "flex", alignItems: "center", gap: 4, flexWrap: "wrap" }}>
-          {crumbs.map((c, i) => (
-            <span key={i} style={{ display: "flex", alignItems: "center", gap: 4 }}>
-              <span style={{ fontSize: 14, lineHeight: "20px", color: i === crumbs.length - 1 ? "#1D2023" : "#626C77", cursor: i < crumbs.length - 1 ? "pointer" : "default" }}>{c}</span>
-              {i < crumbs.length - 1 && <BreadChevron />}
-            </span>
-          ))}
-        </div>
+      <div style={{ maxWidth: 1440, margin: "0 auto", padding: "0 88px 88px" }}>
 
         {/* Title */}
         <h1 style={{ fontSize: 32, fontWeight: 500, lineHeight: "36px", fontFamily: "'MTSWide', sans-serif", color: "#1D2023", margin: "36px 0 0" }}>
