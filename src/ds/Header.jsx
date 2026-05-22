@@ -98,7 +98,7 @@ function Sidebar({ open, isDocked, onClose }) {
         position: 'fixed', top: 0, left: 0,
         width: 280, height: '100vh',
         background: '#F8F8F8',
-        zIndex: isDocked ? 50 : 201,
+        zIndex: isDocked ? 101 : 201,
         display: 'flex', flexDirection: 'column',
         transform: open ? 'translateX(0)' : 'translateX(-100%)',
         transition: isDocked ? 'none' : 'transform 0.25s ease',
