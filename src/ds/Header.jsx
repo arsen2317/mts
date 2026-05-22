@@ -42,78 +42,37 @@ const BellIcon = () => (
   </svg>
 );
 
-const NavIcon = () => (
-  <div style={{ width: 24, height: 24, background: '#E8EDF2', borderRadius: 6, flexShrink: 0 }} />
-);
+const BASE = import.meta.env.BASE_URL;
+const I = (name) => `${BASE}icons/${name}.png`;
 
-const WorkRestIcon = () => (
-  <div style={{ width: 24, height: 24, display: 'flex', justifyContent: 'center', alignItems: 'center', flexShrink: 0 }}>
-    <div style={{ width: 20, height: 18, position: 'relative', overflow: 'hidden' }}>
-      <div style={{ width: 7.55, height: 8.77, left: 2.28, top: 2.42, position: 'absolute', background: '#1991EF' }} />
-      <div style={{ width: 9.77, height: 5.07, left: 0.05, top: 12.09, position: 'absolute', background: '#1991EF' }} />
-      <div style={{ width: 6.67, height: 2.09, left: 3.14, top: 12.69, position: 'absolute', background: '#006FC2' }} />
-      <div style={{ width: 9.76, height: 2.27, left: 0.05, top: 14.90, position: 'absolute', background: '#006FC2' }} />
-      <div style={{ width: 5.15, height: 9.63, left: 10.66, top: 4.16, position: 'absolute', background: '#FFA800' }} />
-      <div style={{ width: 3, height: 2.99, left: 14.73, top: 2.28, position: 'absolute', background: '#FFA800' }} />
-      <div style={{ width: 3.26, height: 1.13, left: 16.72, top: 8.37, position: 'absolute', background: '#FFA800' }} />
-      <div style={{ width: 2.99, height: 2.97, left: 14.73, top: 12.66, position: 'absolute', background: '#FFA800' }} />
-      <div style={{ width: 1.12, height: 3.28, left: 10.66, top: 14.66, position: 'absolute', background: '#FFA800' }} />
-    </div>
-  </div>
-);
-
-const TalentReviewIcon = () => (
-  <div style={{ width: 24, height: 24, display: 'flex', justifyContent: 'center', alignItems: 'center', flexShrink: 0 }}>
-    <div style={{ width: 20, height: 20, position: 'relative' }}>
-      <div style={{ width: 17.28, height: 16.55, left: 1.36, top: 2.20, position: 'absolute', background: '#E5DFFF' }} />
-      <div style={{ width: 6.67, height: 6.67, left: 6.66, top: 0, position: 'absolute', background: '#8F8FFF', borderRadius: 9999 }} />
-      <div style={{ width: 6.67, height: 6.67, left: 0, top: 13.34, position: 'absolute', background: '#8F8FFF', borderRadius: 9999 }} />
-      <div style={{ width: 6.67, height: 6.67, left: 13.34, top: 13.34, position: 'absolute', background: '#8F8FFF', borderRadius: 9999 }} />
-    </div>
-  </div>
-);
-
-const RitmIcon = () => (
-  <div style={{ width: 24, height: 24, display: 'flex', justifyContent: 'center', alignItems: 'center', flexShrink: 0 }}>
-    <div style={{ width: 18, height: 18, position: 'relative' }}>
-      <div style={{ width: 4, height: 4, left: 7, top: 0, position: 'absolute', background: '#F00085', borderRadius: 9999 }} />
-      <div style={{ width: 4, height: 4, left: 7, top: 14, position: 'absolute', background: '#F00085', borderRadius: 9999 }} />
-      <div style={{ width: 4, height: 4, left: 12, top: 2, position: 'absolute', background: '#F00085', borderRadius: 9999 }} />
-      <div style={{ width: 4, height: 4, left: 12, top: 12, position: 'absolute', background: '#F00085', borderRadius: 9999 }} />
-      <div style={{ width: 4, height: 4, left: 2, top: 2, position: 'absolute', background: '#F00085', borderRadius: 9999 }} />
-      <div style={{ width: 4, height: 4, left: 2, top: 12, position: 'absolute', background: '#F00085', borderRadius: 9999 }} />
-      <div style={{ width: 4, height: 4, left: 14, top: 7, position: 'absolute', background: '#F00085', borderRadius: 9999 }} />
-      <div style={{ width: 4, height: 4, left: 0, top: 7, position: 'absolute', background: '#F00085', borderRadius: 9999 }} />
-      <div style={{ width: 8, height: 8, left: 5, top: 5, position: 'absolute', background: '#F00085', borderRadius: 9999 }} />
-      <div style={{ width: 4, height: 4, left: 7, top: 7, position: 'absolute', background: '#FFCB54', borderRadius: 9999 }} />
-    </div>
-  </div>
+const NavImg = ({ name }) => (
+  <img src={I(name)} alt="" width={24} height={24} style={{ flexShrink: 0, objectFit: 'contain' }} />
 );
 
 const FAVORITES = [
-  { label: 'работа и отдых', icon: <WorkRestIcon /> },
-  { label: 'делегирование', icon: <NavIcon /> },
+  { label: 'работа и отдых',  icon: <NavImg name="rabota-i-otdyh" /> },
+  { label: 'делегирование',   icon: <NavImg name="delegirovanie" /> },
 ];
 
 const FREQUENT = [
-  { label: 'пункт управления', icon: <NavIcon /> },
-  { label: 'развитие', icon: <NavIcon /> },
-  { label: 'полка', icon: <NavIcon /> },
-  { label: 'сервисы', icon: <NavIcon /> },
-  { label: 'корпоративная жизнь', icon: <NavIcon /> },
-  { label: 'обращения и справки', icon: <NavIcon /> },
-  { label: 'талант-ревью', icon: <TalentReviewIcon /> },
-  { label: 'моя карьера', icon: <NavIcon /> },
-  { label: 'мой доход', icon: <NavIcon /> },
-  { label: 'цели', icon: <NavIcon /> },
-  { label: 'задачи', icon: <NavIcon /> },
-  { label: 'обратная связь', icon: <NavIcon /> },
-  { label: 'так принято в МТС\nФинтех', icon: <NavIcon /> },
-  { label: 'кибербезопасность', icon: <NavIcon /> },
-  { label: 'ритм', icon: <RitmIcon /> },
-  { label: 'оценка', icon: <NavIcon /> },
-  { label: 'структура', icon: <NavIcon /> },
-  { label: 'тесты, опросы, 360', icon: <NavIcon /> },
+  { label: 'пункт управления',         icon: <NavImg name="punkt-upravleniya" /> },
+  { label: 'развитие',                 icon: <NavImg name="razvitie" /> },
+  { label: 'полка',                    icon: <NavImg name="polka" /> },
+  { label: 'сервисы',                  icon: <NavImg name="servisy" /> },
+  { label: 'корпоративная жизнь',      icon: <NavImg name="korp-zhizn" /> },
+  { label: 'обращения и справки',      icon: <NavImg name="obrashcheniya" /> },
+  { label: 'талант-ревью',             icon: <NavImg name="talant-revyu" /> },
+  { label: 'моя карьера',              icon: <NavImg name="moya-kariera" /> },
+  { label: 'мой доход',                icon: <NavImg name="moy-dohod" /> },
+  { label: 'цели',                     icon: <NavImg name="tseli" /> },
+  { label: 'задачи',                   icon: <NavImg name="zadachi" /> },
+  { label: 'обратная связь',           icon: <NavImg name="obratnaya-svyaz" /> },
+  { label: 'так принято в МТС\nФинтех', icon: <NavImg name="tak-prinyato" /> },
+  { label: 'кибербезопасность',        icon: <NavImg name="kiberbezopasnost" /> },
+  { label: 'ритм',                     icon: <NavImg name="ritm" /> },
+  { label: 'оценка',                   icon: <NavImg name="otsenka" /> },
+  { label: 'структура',                icon: <NavImg name="struktura" /> },
+  { label: 'тесты, опросы, 360',       icon: <NavImg name="testy" /> },
 ];
 
 const SECTION_LABEL = { color: '#626C77', fontSize: 14, fontFamily: "'MTSCompact', sans-serif", fontWeight: 400, lineHeight: '18px' };
